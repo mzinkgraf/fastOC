@@ -2,9 +2,9 @@
 % Please edit documentation in R/functions.R
 \name{parseInParanoid}
 \alias{parseInParanoid}
-\title{Parse inParanoid Table}
+\title{Parse inParanoid table}
 \usage{
-parseInParanoid(MetaDataInParanoid)
+parseInParanoid(MetaDataInParanoid, outDir = ".")
 }
 \arguments{
 \item{MetaDataInParanoid}{Provide a data frame where each row provides the meta data for a single inParanoid run. The resulting data frame must have 3 columns: 1) file path to table.inparanoid_output 2) Species A alias and 3) Species B alias}

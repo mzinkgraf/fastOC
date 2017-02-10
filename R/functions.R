@@ -482,9 +482,9 @@ getEdgelist_from_GeneNames<-function(edges,GeneMeta)
   return(fullE[order(fullE[,1],fullE[,2]),])
 }
 
-#'Plot Heatmap Color Scale
+#'Plot heatmap color scale
 #'
-#'Plot a user define color scale
+#'Plot a user defined color scale
 #' @usage color.bar(lut, min, max=-min, nticks=11, title='')
 #' @param lut User specified color ramp
 #' @param min Minimum value
@@ -507,7 +507,7 @@ color.bar <- function(lut, min, max=-min, nticks=11, title='') {
   }
 }
 
-#'Hierarchical clustering of Gene co-appearance in Louvain communities
+#'Hierarchical clustering of gene co-appearance in Louvain communities
 #'
 #'For each species calculate the a co-appeance matrix representing how often genes are assigned to the same Louvain communities and perform hierarchical clustering to determine which genes have similar co-appearance.
 #' @usage multiSppHclust(occurance, nRuns, GeneMeta)
@@ -574,10 +574,10 @@ multiSppModules<-function(multiSpp_results, GeneMeta, minModuleSize, cut)
   return(MultiSpp_Mods)
 }
 
-#'Parse inParanoid Table
+#'Parse inParanoid table
 #'
 #'Convert an inParanoid table format and output a table of ortholog edges
-#' @usage parseInParanoid(MetaDataInParanoid)
+#' @usage parseInParanoid(MetaDataInParanoid, outDir = ".")
 #' @param MetaDataInParanoid Provide a data frame where each row provides the meta data for a single inParanoid run. The resulting data frame must have 3 columns: 1) file path to table.inparanoid_output 2) Species A alias and 3) Species B alias
 #' @param outDir Directory to write files
 #' @return The function will convert the table.inParanoid format to a two column edgelist and print the results to a text file SppA_SppB_orthologs.txt

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{multiSppHclust}
 \alias{multiSppHclust}
-\title{Hierarchical clustering of Gene co-appearance in Louvain communities}
+\title{Hierarchical clustering of gene co-appearance in Louvain communities}
 \usage{
 multiSppHclust(occurance, nRuns, GeneMeta)
 }

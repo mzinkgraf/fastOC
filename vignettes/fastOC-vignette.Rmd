@@ -1,5 +1,5 @@
 ---
-title: "Running fastOC to identify ortholougs gene clusters"
+title: "Running fastOC to identify orthologous gene clusters"
 author: "Matthew Zinkgraf"
 date: '`r Sys.Date()`'
 output:
@@ -38,7 +38,7 @@ Before you start the analysis, begin by setting up the work environment and load
 
 # Load and Prepare Expression Data Sets
 
-Begin by loading loading or creating a list object containing the rpkm expression data. Each element in the list should pertain to the rpkm values for a given species and it is helpful to name each list element after the species.
+Begin by loading or creating a list object containing the rpkm expression data. Each element in the list should pertain to the rpkm values for a given species and it is helpful to name each list element after the species.
 
 
 ```{r}
@@ -61,7 +61,7 @@ Next, we will filter out genes that display low variance. A variance threshold i
 
 # Create Gene Metadata
 
-In this section we will generate a data frame that contains information about the species, genes and columns for storing results. The data frame is created from the rpkm list object and will be used through out the analysis.
+In this section, we will generate a data frame that contains information about the species, genes and columns for storing results. The data frame is created from the rpkm list object and will be used through out the analysis.
 
 ```{r}
     GeneMeta <- createGeneMeta(rpkm_var)
@@ -96,7 +96,7 @@ Example of orthologous table for ortho$potri_eugra:
 
 # Create Multi-Layer Network
 
-In this section we will generate the multi-layer network in the iGraph edgelist format that will be used to identify co-expressed gene modules. This network consists of within species co-expression relationships and between species orthologous weight.
+In this section, we will generate the multi-layer network in the iGraph edgelist format that will be used to identify co-expressed gene modules. This network consists of within species co-expression relationships and between species orthologous weight.
 
 ## Within species co-expression
 
@@ -117,7 +117,7 @@ Second, we will generate the orthologous weights in edgelist format that will be
 
 ## Combine into multi-layer edgelist
 
-Third, the two edgelist are combined into a single edgelist object.
+Third, the two edgelists are combined into a single edgelist object.
 
 ```{r, eval=FALSE}
   names(ortho_weights) <- names(gene_edgelist)
@@ -158,7 +158,7 @@ Calculate co-appearacnce and perform hierarchical clustering to determine which 
     MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
 ```
 
-Identify gene modules using dynamic tree cutting 
+Identify gene modules using dynamic tree cutting.
 
 ```{r}
     MultiSpp_modules <- multiSppModules(MultiSpp_trees, GeneMeta, 
@@ -173,7 +173,7 @@ Identify gene modules using dynamic tree cutting
 
 # Visualize Results
 
-In this section we will create a heatmap plot of the co-appearance results. One major challenge with visualizing these data is the sheer number of genes and visualizing the entire data set is very computationally intense and difficult to render. To get around this we will sample every ith gene from the gene order defined by the hierarchical cluster step. By default the function `plot_MultiSpp()` samples every 12th gene (sb=12)
+In this section, we will create a heatmap plot of the co-appearance results. One major challenge with visualizing these data is the sheer number of genes and visualizing the entire data set is very computationally intense and difficult to render. To get around this, we will sample every ith gene from the gene order defined by the hierarchical cluster step. By default the function `plot_MultiSpp()` samples every 12th gene (sb=12)
 
 ```{r,fig.show='hold',results='hide', message=FALSE, warning=FALSE}
     #Create heatmap of co-appearance modules across all species
