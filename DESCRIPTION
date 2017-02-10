@@ -1,0 +1,31 @@
+Package: fastOC
+Type: Package
+Title: Co-expression network analysis across multiple species
+Version: 0.1.0
+Author: Matthew Zinkgraf, Vladimir Filkov
+Maintainer: Matthew Zinkgraf <mzinkgraf@gmail.com>
+Description: Perform co-exprssion analyses across multiple species using gene
+    expression from indivisual species and orthologous relations between species.
+License: GPL (>=3)
+Depends:
+    R (>= 3.0.2),igraph,
+    Matrix,
+    WGCNA,
+    reshape2,
+    ggplot2,
+    fastcluster,
+    dynamicTreeCut
+Imports:
+    igraph,
+    methods,
+    Matrix,
+    WGCNA,
+    reshape2,
+    ggplot2,
+    fastcluster,
+    dynamicTreeCut
+LazyData: TRUE
+RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
