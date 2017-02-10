@@ -9,7 +9,7 @@ getOrthoWeights(ortho, GeneMeta, couple_const=1)
 \arguments{
 \item{ortho}{List object that contains the orthologous gene relationships between species}
 
-\item{GeneMeta}{Data frame that contains the project metadata. See \link{CreateGeneMeta}}
+\item{GeneMeta}{Data frame that contains the project metadata. See \link{createGeneMeta}}
 
 \item{couple_const}{A contant that determines the relative contribution of orthologous gene relationships between species. Default=1}
 }

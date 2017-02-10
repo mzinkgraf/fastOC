@@ -9,7 +9,7 @@ multiSppModules(multiSpp_results, GeneMeta, minModuleSize, cut)
 \arguments{
 \item{multiSpp_results}{A list object containing the gene order and hclust dendrograms for each species. See \link{multiSppHclust}}
 
-\item{GeneMeta}{Data frame that contains the project metadata. See \link{CreateGeneMeta}}
+\item{GeneMeta}{Data frame that contains the project metadata. See \link{createGeneMeta}}
 
 \item{minModuleSize}{A vector containing the minimum module size to be used for each species in the data set.}
 

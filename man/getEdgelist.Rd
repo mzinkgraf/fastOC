@@ -9,7 +9,7 @@ getEdgelist(rpkm, GeneMeta, top=5, weight=1, nThreads = 3)
 \arguments{
 \item{rpkm}{A list object where each element in the list is a data frame of rpkm values for each species}
 
-\item{GeneMeta}{Data frame that contains the project metadata. See \link{CreateGeneMeta}}
+\item{GeneMeta}{Data frame that contains the project metadata. See \link{createGeneMeta}}
 
 \item{top}{An integer specifying the number of neighbors for each gene that should be printed to the edgelist. Default = 5}
 

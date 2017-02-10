@@ -10,7 +10,7 @@ plot_MultiSpp(GeneMeta, order, CA_keep, sb = 12, remove_0 = TRUE,
   100))
 }
 \arguments{
-\item{GeneMeta}{Data frame that contains the project metadata. See \link{CreateGeneMeta}}
+\item{GeneMeta}{Data frame that contains the project metadata. See \link{createGeneMeta}}
 
 \item{order}{The order in which genes should be plotted.}
 
