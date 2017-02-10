@@ -139,7 +139,6 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
 #' @export
 weighted2rankList<-function(m, top=5)
 {
-  require(reshape2,quietly = T)
   tmp<-apply(m,1,function(x) order(x,decreasing=TRUE)[1:top])
   tmp<-as.data.frame(tmp)
   names(tmp)<-seq(1,ncol(tmp),1)
@@ -165,7 +164,6 @@ weighted2rankList<-function(m, top=5)
 #' @export
 getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 3)
 {
-  #require(WGCNA,quietly = T)
   if(is.list(rpkm) & length(rpkm)>0)
   {
     nGenes<-cumsum(do.call(c,lapply(seq_along(rpkm), function(y, i) {  length(dimnames(y[[i]])[[1]] ) }, y=rpkm)))
@@ -273,7 +271,6 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' @export
 louvain<-function(edgelist,nruns)
 {
-  require(igraph, quietly = T)
   if(is.data.frame(edgelist) & ncol(edgelist)==3)
   {
     colnames(edgelist)<-c("V1","V2","weight")
@@ -308,7 +305,6 @@ louvain<-function(edgelist,nruns)
 #Generate weighted edgelist using adjacency and low end cutoff
 getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
 {
-  require(WGCNA,quietly = T); require(reshape2, quietly = T)
   if(is.list(rpkm) & length(rpkm)>0 & length(rpkm)==length(power))
   {
     full_edgelist<-data.frame(matrix(nrow = 0,ncol = 3))
@@ -370,7 +366,6 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
 #' @export
 plot_MultiSpp<-function(GeneMeta,order,CA_keep,sb=12, remove_0=TRUE, text_rotate=NULL, lwd=0.5, cex=0.2, my_palette=colorRampPalette(c("white", "lightyellow", "red","black"))(n = 100))
 {
-  #require(Matrix, quietly = T)
   #reorder the data frame
   gene_order<-GeneMeta[order,]
 
