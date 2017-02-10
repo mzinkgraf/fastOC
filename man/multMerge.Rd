@@ -4,7 +4,7 @@
 \alias{multMerge}
 \title{Combine multiple files}
 \usage{
-multMerge(mypath, pattern="*\\.out", header=FALSE, sep=" ")
+multMerge(mypath, pattern="*\\\\.out", header=FALSE, sep=" ")
 }
 \arguments{
 \item{mypath}{Path to folder.}

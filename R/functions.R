@@ -86,7 +86,7 @@ createGeneMeta = function(rpkm)
 #'Combine multiple files
 #'
 #'Read and combine multiple results files from a folder. The results are combined using cbind and the row order in each file must be the same.
-#' @usage multMerge(mypath, pattern="*\\.out", header=FALSE, sep=" ")
+#' @usage multMerge(mypath, pattern="*\\\\.out", header=FALSE, sep=" ")
 #' @param mypath Path to folder.
 #' @param pattern Unique pattern that matches files to be be read and combined using perl style regular expressions.
 #' @param header A logical value indicateing if the file contains a header row. Default = FALSE
@@ -107,12 +107,13 @@ multMerge = function(mypath, pattern="*\\.out", header=FALSE, sep=" ")
 #'Combine multiple htseq files using merge
 #'
 #'Read and combine tab deliminted htseq results files from a folder using the merge function.
-#' @usage multMergeHTseq(mypath, pattern="*\\.htseq", byY="gene", RegEx="(\\w+)\\.htseq\\.txt", Replace="\\1", sep="\t")
+#' @usage multMergeHTseq(mypath, pattern="*\\\\.htseq", byY="gene",
+#'     RegEx="(\\\\w+)\\\\.htseq\\\\.txt", Replace="\\\\1", sep="\t")
 #' @param mypath Path to folder.
 #' @param pattern Unique pattern that matches files to be read and merged using perl style regular expressions.
 #' @param byY Column name that should be used in the merge function.
-#' @param RegEx Perl style regular expression that matches pattern in the filename. Used to extract library name from filename. Example "(\\w+)\\.htseq\\.txt" matches Library1 in filename Library1.htseq.txt
-#' @param Replace Perl style replacement. Default = "\\1"
+#' @param RegEx Perl style regular expression that matches pattern in the filename. Used to extract library name from filename. Example "(\\\\w+)\\\\.htseq\\\\.txt" matches Library1 in filename Library1.htseq.txt
+#' @param Replace Perl style replacement. Default = "\\\\1"
 #' @param sep The field separator character.
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link[base]{list.files}}
@@ -355,6 +356,9 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
 #' Plot MultiSpp co-appearance matrix
 #'
 #' Plot co-appearance heatmap of co-expression network generated across multiple species
+#' @usage plot_MultiSpp(GeneMeta,order,CA_keep,sb=12, remove_0=TRUE,
+#'     text_rotate=NULL, lwd=0.5, cex=0.2,
+#'     my_palette=colorRampPalette(c("white", "lightyellow", "red","black"))(n = 100))
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param order The order in which genes should be plotted.
 #' @param CA_keep Sparse matrix of louvain community assignments generated from many runs of \code{\link{louvain}}

@@ -12,7 +12,6 @@ Depends:
     Matrix,
     WGCNA,
     reshape2,
-    ggplot2,
     fastcluster,
     dynamicTreeCut
 Imports:

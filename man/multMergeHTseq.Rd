@@ -4,7 +4,8 @@
 \alias{multMergeHTseq}
 \title{Combine multiple htseq files using merge}
 \usage{
-multMergeHTseq(mypath, pattern="*\\.htseq", byY="gene", RegEx="(\\w+)\\.htseq\\.txt", Replace="\\1", sep="\t")
+multMergeHTseq(mypath, pattern="*\\\\.htseq", byY="gene",
+    RegEx="(\\\\w+)\\\\.htseq\\\\.txt", Replace="\\\\1", sep="\t")
 }
 \arguments{
 \item{mypath}{Path to folder.}
@@ -13,9 +14,9 @@ multMergeHTseq(mypath, pattern="*\\.htseq", byY="gene", RegEx="(\\w+)\\.htseq\\.
 
 \item{byY}{Column name that should be used in the merge function.}
 
-\item{RegEx}{Perl style regular expression that matches pattern in the filename. Used to extract library name from filename. Example "(\\w+)\\.htseq\\.txt" matches Library1 in filename Library1.htseq.txt}
+\item{RegEx}{Perl style regular expression that matches pattern in the filename. Used to extract library name from filename. Example "(\\\\w+)\\\\.htseq\\\\.txt" matches Library1 in filename Library1.htseq.txt}
 
-\item{Replace}{Perl style replacement. Default = "\\1"}
+\item{Replace}{Perl style replacement. Default = "\\\\1"}
 
 \item{sep}{The field separator character.}
 }

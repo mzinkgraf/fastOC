@@ -4,10 +4,9 @@
 \alias{plot_MultiSpp}
 \title{Plot MultiSpp co-appearance matrix}
 \usage{
-plot_MultiSpp(GeneMeta, order, CA_keep, sb = 12, remove_0 = TRUE,
-  text_rotate = NULL, lwd = 0.5, cex = 0.2,
-  my_palette = colorRampPalette(c("white", "lightyellow", "red", "black"))(n =
-  100))
+plot_MultiSpp(GeneMeta,order,CA_keep,sb=12, remove_0=TRUE,
+    text_rotate=NULL, lwd=0.5, cex=0.2,
+    my_palette=colorRampPalette(c("white", "lightyellow", "red","black"))(n = 100))
 }
 \arguments{
 \item{GeneMeta}{Data frame that contains the project metadata. See \link{createGeneMeta}}
