@@ -156,7 +156,7 @@ weighted2rankList<-function(m, top=5)
 #'Generate an edgelist for each gene from a list of rpkm values and return each gene and its top most correlated neighbors
 #' @usage getEdgelist(rpkm, GeneMeta, top=5, weight=1, nThreads = 3)
 #' @param rpkm A list object where each element in the list is a data frame of rpkm values for each species
-#' @param GeneMeta Data frame that contains the project metadata. See \link{CreateGeneMeta}
+#' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param top An integer specifying the number of neighbors for each gene that should be printed to the edgelist. Default = 5
 #' @param weight The edge weight between genes. Default = 1
 #' @param nThreads The number of multiple threads that should be used to calculate the correlation matrix. Default = 3
@@ -216,7 +216,7 @@ getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 3)
 #'Generate a coupling matrix that connects species based on the orthologus relationships between species. Relationships can range from one-to-one to many-to-many
 #' @usage getOrthoWeights(ortho, GeneMeta, couple_const=1)
 #' @param ortho List object that contains the orthologous gene relationships between species
-#' @param GeneMeta Data frame that contains the project metadata. See \link{CreateGeneMeta}
+#' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param couple_const A contant that determines the relative contribution of orthologous gene relationships between species. Default=1
 #' @keywords gene ortholog
 #' @references Koon-Kiu Yan, Daifeng Wang, Joel Rozowsky, Henry Zheng, Chao Cheng and Mark Gerstein. 2014. OrthoClust: an orthology-based network framework for clustering data across multiple species. Genome Biology. 15:R100
@@ -350,7 +350,7 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
 #' Plot MultiSpp co-appearance matrix
 #'
 #' Plot co-appearance heatmap of co-expression network generated across multiple species
-#' @param GeneMeta Data frame that contains the project metadata. See \link{CreateGeneMeta}
+#' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param order The order in which genes should be plotted.
 #' @param CA_keep Sparse matrix of louvain community assignments generated from many runs of \code{\link{louvain}}
 #' @param sb An integer specifying the increment of the sequence to plot. Example plot every 12th gene in the order.
@@ -508,7 +508,7 @@ color.bar <- function(lut, min, max=-min, nticks=11, title='') {
 #' @usage multiSppHclust(occurance, nRuns, GeneMeta)
 #' @param occurance Sparse matrix that contain the presence (1) and absence (0) of each gene in each Louvain community.
 #' @param nRuns Integer specifying the number of Louvain runs.
-#' @param GeneMeta Data frame that contains the project metadata. See \link{CreateGeneMeta}
+#' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @import methods
 #' @importFrom Matrix tcrossprod
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
@@ -541,7 +541,7 @@ multiSppHclust<-function(occurance, nRuns, GeneMeta)
 #'Use cutreeDynamic to identify gene modules that have high co-appearance.
 #' @usage multiSppModules(multiSpp_results, GeneMeta, minModuleSize, cut)
 #' @param multiSpp_results A list object containing the gene order and hclust dendrograms for each species. See \link{multiSppHclust}
-#' @param GeneMeta Data frame that contains the project metadata. See \link{CreateGeneMeta}
+#' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param minModuleSize A vector containing the minimum module size to be used for each species in the data set.
 #' @param cut A vector containing the cut height to be used for species in the data set
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
