@@ -9,6 +9,8 @@
 #' @param results Data frame containing the community assignments for each genes and contains nRuns+1 columns
 #' @param minMem Minimum number of genes in a community to be considered significant. Default = 10
 #' @import methods
+#' @import igraph
+#' @import Matrix
 #' @importMethodsFrom Matrix colSums
 #' @return Returns a sparse matrix containing to occurance of each gene in each community. 1 = present and 0 = absent
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
@@ -120,11 +122,11 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
                           RegEx="(\\w+)\\.htseq\\.txt", Replace="\\1", sep="\t")
 {
   filenames=list.files(path=mypath, pattern=pattern, full.names=TRUE)
-  datalist = lapply(filenames, function(x) {read.table(file=x, header=F, sep=sep)})
-  output=Reduce(function(x,y) {suppressWarnings(merge(x,y,by.x="V1",by.y="V1",all=T))}, datalist)
+  datalist = lapply(filenames, function(x) {read.table(file=x, header=FALSE, sep=sep)})
+  output=Reduce(function(x,y) {suppressWarnings(merge(x,y,by.x="V1",by.y="V1",all=TRUE))}, datalist)
   #get short names and create header line
-  nm=list.files(path=mypath, pattern=pattern, full.names=F)
-  names(output)=c(byY, sub(RegEx, Replace, nm,perl=T))
+  nm=list.files(path=mypath, pattern=pattern, full.names=FALSE)
+  names(output)=c(byY, sub(RegEx, Replace, nm,perl=TRUE))
   return(output)
 }
 
@@ -134,6 +136,7 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
 #' @usage weighted2rankList(m, top=5)
 #' @param m A maxtrix of correlation values
 #' @param top An integer specifying the number values to return. Default = 5
+#' @import reshape2
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link{getEdgelist}}
 #' @export
@@ -160,6 +163,7 @@ weighted2rankList<-function(m, top=5)
 #' @param top An integer specifying the number of neighbors for each gene that should be printed to the edgelist. Default = 5
 #' @param weight The edge weight between genes. Default = 1
 #' @param nThreads The number of multiple threads that should be used to calculate the correlation matrix. Default = 3
+#' @import WGCNA
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @export
 getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 3)
@@ -264,6 +268,7 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' @usage louvain(edgelist, nruns)
 #' @param edgelist A data frame that contains three columns. The first two columns define the edges between gene_A and gene_B. Gene names must be converted to integer values. The third column defines the numeric edge weight.
 #' @param nruns An interger defining the number of runs.
+#' @import igraph
 #' @keywords louvain
 #' @references Vincent D. Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre. 2008. Fast unfolding of communities in large networks. J. Stat. Mech. P10008
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
@@ -509,6 +514,7 @@ color.bar <- function(lut, min, max=-min, nticks=11, title='') {
 #' @param occurance Sparse matrix that contain the presence (1) and absence (0) of each gene in each Louvain community.
 #' @param nRuns Integer specifying the number of Louvain runs.
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
+#' @import fastcluster
 #' @import methods
 #' @importFrom Matrix tcrossprod
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
@@ -544,6 +550,7 @@ multiSppHclust<-function(occurance, nRuns, GeneMeta)
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param minModuleSize A vector containing the minimum module size to be used for each species in the data set.
 #' @param cut A vector containing the cut height to be used for species in the data set
+#' @import dynamicTreeCut
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @export
 multiSppModules<-function(multiSpp_results, GeneMeta, minModuleSize, cut)
@@ -589,13 +596,13 @@ if(ncol(MetaDataInParanoid)!=3) {stop("meta data does not contain 3 columns")}
   {
     if(!file.exists(MetaDataInParanoid[f,1])) {stop(paste(MetaDataInParanoid[f,1],"File does not exist!"))}
 
-    tb<-read.table(MetaDataInParanoid[f,1],sep="\t",header=T)
+    tb<-read.table(MetaDataInParanoid[f,1],sep="\t",header=TRUE)
 
     #split each species column
 
-    spp1<-strsplit(as.character(tb$OrtoA), split="\\s\\d\\.\\d+\\s", perl=T)
+    spp1<-strsplit(as.character(tb$OrtoA), split="\\s\\d\\.\\d+\\s", perl=TRUE)
 
-    spp2<-strsplit(as.character(tb$OrtoB), split="\\s\\d\\.\\d+\\s", perl=T)
+    spp2<-strsplit(as.character(tb$OrtoB), split="\\s\\d\\.\\d+\\s", perl=TRUE)
 
     n1<-length(spp1)
     n2<-length(spp2)
