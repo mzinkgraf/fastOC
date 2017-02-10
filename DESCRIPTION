@@ -1,7 +1,7 @@
 Package: fastOC
 Type: Package
 Title: Co-expression network analysis across multiple species
-Version: 0.1.0
+Version: 0.99.1
 Author: Matthew Zinkgraf, Vladimir Filkov
 Maintainer: Matthew Zinkgraf <mzinkgraf@gmail.com>
 Description: Perform co-exprssion analyses across multiple species using gene

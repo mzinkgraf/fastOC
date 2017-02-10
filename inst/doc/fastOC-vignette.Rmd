@@ -1,0 +1,190 @@
+---
+title: "Running fastOC to identify ortholougs gene clusters"
+author: "Matthew Zinkgraf"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{Orthologous Clustering Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette provides a detail workflow on how to carry out an Orthologous Clusting approach to identify conserved and lineage specific co-expressed gene modules. In addition, we illustrate various aspects of data manipulation, filtering and visualization of large transcriptomic experiments.
+
+# Install fastOC and Dependant Packages
+
+The fastOC package can be obtainded from github and installed using the following code:
+
+```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
+    require(devtools);
+    install_github("mzinkgraf/fastOC");
+```
+
+
+# Setup Environment
+
+Before you start the analysis, begin by setting up the work environment and load packages.
+
+```{r results='hide', message=FALSE, warning=FALSE}
+    require(fastOC);
+    options(scipen = 0);
+    options(stringsAsFactors = FALSE);
+    #change working directory
+    setwd(".")
+```
+
+# Load and Prepare Expression Data Sets
+
+Begin by loading loading or creating a list object containing the rpkm expression data. Each element in the list should pertain to the rpkm values for a given species and it is helpful to name each list element after the species.
+
+
+```{r}
+    #load rpkm data sets
+      load("../Data/eugra_potri_sapur_rpkm.rdata")
+      names(rpkm)
+```
+
+Example of the expression data and data.frame layout for rpkm$potri:
+
+```{r, results = "asis",echo = FALSE}
+  pander::pandoc.table(rpkm$potri[1:4,1:2])
+```
+
+Next, we will filter out genes that display low variance. A variance threshold is applied to each of the expression data because genes with low variance often result in weak or non-significant correlations.
+
+```{r}
+  rpkm_var <- filterVariance(rpkm, variance = 0.1)
+```
+
+# Create Gene Metadata
+
+In this section we will generate a data frame that contains information about the species, genes and columns for storing results. The data frame is created from the rpkm list object and will be used through out the analysis.
+
+```{r}
+    GeneMeta <- createGeneMeta(rpkm_var)
+```
+
+Example of GeneMeta:
+
+```{r, results = "asis",echo = FALSE}
+  x<-GeneMeta[c(1,2,28779,64104),]
+  row.names(x)<-NULL
+  pander::pandoc.table(x)
+```
+
+# Load Orthogous Data Sets
+
+Orhthologous relationships between genes is a central component of fastOC and are used to align co-expression patterns between species. The ortholougous relationships can be calcualted locally using programs such as inParanoid or OrthoMCL, or obtained from phytozome.net using the PhytoMine portal. If using inParanoid, see the function `parseInParanoid()` to format the inParanoid output into a two column format. 
+
+```{r}
+    ortho = list()
+      ortho$potri_eugra <- read.table("../Data/potri_eugra.txt", sep = " ")
+      ortho$potri_sapur <- read.table("../Data/potri_sapur.txt", sep = " ")
+      ortho$sapur_eugra <- read.table("../Data/sapur_eugra.txt", sep = " ")
+```
+
+
+Example of orthologous table for ortho$potri_eugra:
+
+```{r, results = "asis",echo = FALSE}
+  names(ortho$potri_eugra)[1:2]<-c("GeneA","GeneB")
+  pander::pandoc.table(ortho$potri_eugra[1:4,1:2])
+```
+
+# Create Multi-Layer Network
+
+In this section we will generate the multi-layer network in the iGraph edgelist format that will be used to identify co-expressed gene modules. This network consists of within species co-expression relationships and between species orthologous weight.
+
+## Within species co-expression
+
+First, generate the edgelist for co-expressed genes within each species. The network is created using each gene and the top (default top=5) most highly connected neighbors.
+
+```{r, eval=FALSE}
+    gene_edgelist<-getEdgelist(rpkm_var, GeneMeta, top = 5)
+```
+
+## Across species orthologous relationships
+
+Second, we will generate the orthologous weights in edgelist format that will be used to link the within species co-expression networks. The orthologous weight calculation takes into account the comple evolutionary relationship between genes and the strength of the weight between two genes is based on the number of orthologous connections^[Yan K-K, Wang D, Rozowsky J, Zheng H, Cheng C, Gerstein M. 2014. OrthoClust: an orthology-based network framework for clustering data across multiple species. Genome Biology 15(8): R100.]. In addition, a coupling constant (default = 1) can be applied to the orthologous weights to help balance the relative contribution of co-expression links within a species and the orthologous links across species.
+
+```{r, eval=FALSE}
+    ortho_weights <- getOrthoWeights(ortho, GeneMeta, couple_const = 1)
+
+```
+
+## Combine into multi-layer edgelist
+
+Third, the two edgelist are combined into a single edgelist object.
+
+```{r, eval=FALSE}
+  names(ortho_weights) <- names(gene_edgelist)
+  combined_out <- rbind(gene_edgelist, ortho_weights)
+  
+  #write file to disk
+  save(combined_out,file="../Data/Louvain_input.rdata")
+
+```
+
+```{r, echo = FALSE}
+    load("../Data/Louvain_input.rdata");
+    load("../Data/MultiSppTrees.rdata");
+    load("../Data/Occurance_sparse.rdata");
+```
+
+
+# Identify Orthologous Gene Modules
+
+Use the Louvain community detection method to identify groups of genes that are co-expressed within and orthologous across species. The louvain method is heuristic algorithm and should be run multiple times to reduce noise and incease significance of detected modules^[Vincent DB, Jean-Loup G, Renaud L, Etienne L. 2008. Fast unfolding of communities in large networks. Journal of Statistical Mechanics: Theory and Experiment 2008(10): P10008.].
+
+```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
+    nRuns = 100
+    results <- louvain(combined_out, nRuns)
+    save(results, file="../Data/igraph_louvain.results")
+```
+
+Remove Louvain communities that have less than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use `hist(colSums(occurance))`,
+
+```{r, eval=FALSE}
+    occurance <- filterCommunityAssign(results, minMem = 10)
+    save(occurance, file = "Occurance_sparse.rdata")
+```
+
+Calculate co-appearacnce and perform hierarchical clustering to determine which genes have similar co-appearance. Co-appearance represents how often two genes are assigned to the same Louvain community.
+
+```{r, eval=FALSE}
+    MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
+```
+
+Identify gene modules using dynamic tree cutting 
+
+```{r}
+    MultiSpp_modules <- multiSppModules(MultiSpp_trees, GeneMeta, 
+         minModuleSize = c(800,800,800), 
+         cut = c(0.5,0.5,0.5))
+
+    #add module assignemnts to columns 3 of GeneMeta
+
+    GeneMeta[,3]<-do.call(c,lapply(seq_along(MultiSpp_modules), function(y, i) { y[[i]] }, y=MultiSpp_modules))
+```
+
+
+# Visualize Results
+
+In this section we will create a heatmap plot of the co-appearance results. One major challenge with visualizing these data is the sheer number of genes and visualizing the entire data set is very computationally intense and difficult to render. To get around this we will sample every ith gene from the gene order defined by the hierarchical cluster step. By default the function `plot_MultiSpp()` samples every 12th gene (sb=12)
+
+```{r,fig.show='hold',results='hide', message=FALSE, warning=FALSE}
+    #Create heatmap of co-appearance modules across all species
+    par(fig=c(0,1,0,1))
+    plot_MultiSpp(GeneMeta = GeneMeta, order = MultiSpp_trees$order, 
+                  sb=12, CA_keep = occurance, remove_0 = F, lwd = 1, cex = 0.5)
+
+    #Add heatmap color bar
+    par(fig=c(0,0.6,0.6,0.9), new=TRUE)
+    color.bar(lut = colorRampPalette(c("white", "lightyellow", "red","black"))(n = 100),
+              min = 0, max = 1, nticks=5,
+              title = "Co-Appearance")
+```
+
