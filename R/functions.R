@@ -91,6 +91,7 @@ createGeneMeta = function(rpkm)
 #' @param pattern Unique pattern that matches files to be be read and combined using perl style regular expressions.
 #' @param header A logical value indicateing if the file contains a header row. Default = FALSE
 #' @param sep The field separator character.
+#' @importFrom("utils", "read.table")
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link[base]{list.files}}
 #' @export
@@ -115,6 +116,7 @@ multMerge = function(mypath, pattern="*\\.out", header=FALSE, sep=" ")
 #' @param RegEx Perl style regular expression that matches pattern in the filename. Used to extract library name from filename. Example "(\\\\w+)\\\\.htseq\\\\.txt" matches Library1 in filename Library1.htseq.txt
 #' @param Replace Perl style replacement. Default = "\\\\1"
 #' @param sep The field separator character.
+#' @importFrom("utils", "read.table")
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link[base]{list.files}}
 #' @export
@@ -370,6 +372,8 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
 #' @param my_palette Specify your own color ramp for the heatmap
 #' @import methods
 #' @importFrom Matrix tcrossprod
+#' @importFrom("grDevices", "colorRampPalette")
+#' @importFrom("graphics", "abline", "axis", "par", "plot", "rect", "segments", "text")
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso \code{\link[igraph]{cluster_louvain}}
 #' @export
@@ -495,6 +499,7 @@ getEdgelist_from_GeneNames<-function(edges,GeneMeta)
 #' @param max Maximum value
 #' @param nticks Number of ticks
 #' @param title Title for color scale.
+#' @importFrom("grDevices", "colorRampPalette")
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @export
 #'
@@ -587,6 +592,7 @@ multiSppModules<-function(multiSpp_results, GeneMeta, minModuleSize, cut)
 #' @param MetaDataInParanoid Provide a data frame where each row provides the meta data for a single inParanoid run. The resulting data frame must have 3 columns: 1) file path to table.inparanoid_output 2) Species A alias and 3) Species B alias
 #' @param outDir Directory to write files
 #' @return The function will convert the table.inParanoid format to a two column edgelist and print the results to a text file SppA_SppB_orthologs.txt
+#' @importFrom("utils", "read.table", "write.table")
 #' @examples
 #' load("Data/inParanoid_meta.rdata")
 #' parseInParanoid(Meta_Data)
