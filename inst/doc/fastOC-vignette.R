@@ -61,7 +61,7 @@
 ## ----results='hide', message=FALSE, warning=FALSE, eval=FALSE------------
 #      nRuns = 100
 #      results <- louvain(combined_out, nRuns)
-#      save(results, file="../Data/igraph_louvain.results")
+#      save(results, file="../Data/igraph_louvain.rdata")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #      occurance <- filterCommunityAssign(results, minMem = 10)

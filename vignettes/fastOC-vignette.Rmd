@@ -142,7 +142,7 @@ Use the Louvain community detection method to identify groups of genes that are 
 ```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
     nRuns = 100
     results <- louvain(combined_out, nRuns)
-    save(results, file="../Data/igraph_louvain.results")
+    save(results, file="../Data/igraph_louvain.rdata")
 ```
 
 Remove Louvain communities that have less than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use `hist(colSums(occurance))`,

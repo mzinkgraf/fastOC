@@ -318,7 +318,7 @@ $(document).ready(function () {
 <p>Use the Louvain community detection method to identify groups of genes that are co-expressed within and orthologous across species. The louvain method is heuristic algorithm and should be run multiple times to reduce noise and incease significance of detected modules<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <pre class="r"><code>    nRuns = 100
     results &lt;- louvain(combined_out, nRuns)
-    save(results, file=&quot;../Data/igraph_louvain.results&quot;)</code></pre>
+    save(results, file=&quot;../Data/igraph_louvain.rdata&quot;)</code></pre>
 <p>Remove Louvain communities that have less than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use <code>hist(colSums(occurance))</code>,</p>
 <pre class="r"><code>    occurance &lt;- filterCommunityAssign(results, minMem = 10)
     save(occurance, file = &quot;Occurance_sparse.rdata&quot;)</code></pre>
