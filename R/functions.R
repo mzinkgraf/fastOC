@@ -487,11 +487,9 @@ plot_MultiSpp<-function(GeneMeta,order,CA_keep,sb=12, remove_0=TRUE, text_rotate
     Wmatrix[ns[s]:ns[s+1],ns[s+1]:nc]<-NA
   }
 
-
-
   #pdf(file=paste(output_dir,"Co_appearance_louvain_lower.pdf",sep=""),w=10,h=10)
   par(mar=c(5,4,2,9))
-  image(Wmatrix, col=my_palette, useRaster=TRUE, axes=FALSE)
+  image(Wmatrix,  col=my_palette, useRaster=TRUE, axes=FALSE)
   rect(coordN[,1], coordN[,1], coordN[,2], coordN[,2],border = "black",lwd = lwd)
   #Add line segments
   segments(tmp[,1],tmp[,2],tmp[,3],tmp[,4],lwd=lwd)
