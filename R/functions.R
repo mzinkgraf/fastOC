@@ -68,6 +68,7 @@ filterVariance = function(rpkm, variance=0.1)
 #'This function generates a data frame that contains the species and gene information, and columns to store module results.
 #' @usage createGeneMeta(rpkm)
 #' @param rpkm List object containing the rpkm values for each species.
+#' @seealso  \code{\link{checkGeneMetaFormat}}
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @export
 createGeneMeta = function(rpkm)
@@ -83,6 +84,60 @@ createGeneMeta = function(rpkm)
   names(gene_names)<-c("species","gene","modules","ID")
   return(gene_names)
 }
+
+#'Check GeneMeta format
+#'
+#'Check to make sure the GeneMeta object is formated correctly and return summary of object
+#' @usage checkGeneMetaFormat(GeneMeta)
+#' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
+#' @return print error messages or PASS with summary of data
+#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @export
+checkGeneMetaFormat<-function(GeneMeta)
+{
+  c4=FALSE
+  nm=FALSE
+  #first make sure GeneMeta contains 4 columns and correct names
+  if(ncol(GeneMeta)==4)
+  {
+    c4=TRUE
+  } else
+  {
+    c4=FALSE
+  }
+
+  if(c4==TRUE)
+  {
+    if(names(GeneMeta)[1]=="species" & names(GeneMeta)[2]=="gene" & names(GeneMeta)[3]=="modules" & names(GeneMeta)[4]=="ID")
+    {
+    nm=TRUE
+    } else
+    {
+      nm=FALSE
+    }
+  }
+
+    if(c4==TRUE & nm==TRUE)
+    {
+      print("Format Check: PASS",quote=FALSE)
+    } else if (c4==FALSE)
+      {
+      stop("Object does not contain 4 columns")
+      } else if(c4==TRUE & nm==FALSE)
+      {
+      stop("Columns names do not match: species, gene, modules, ID")
+      }
+
+  if(c4==TRUE & nm==TRUE)
+    {
+      print("Summary of GeneMeta:",quote=FALSE)
+      #table summary
+      species=table(GeneMeta[,1])
+      print(species)
+    }
+
+}
+
 
 #'Combine multiple files
 #'

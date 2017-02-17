@@ -12,6 +12,9 @@ createGeneMeta(rpkm)
 \description{
 This function generates a data frame that contains the species and gene information, and columns to store module results.
 }
+\seealso{
+\code{\link{checkGeneMetaFormat}}
+}
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 }
