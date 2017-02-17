@@ -11,7 +11,7 @@
 
 <meta name="author" content="Matthew Zinkgraf" />
 
-<meta name="date" content="2017-02-10" />
+<meta name="date" content="2017-02-17" />
 
 <title>Running fastOC to identify orthologous gene clusters</title>
 
@@ -119,7 +119,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Running fastOC to identify orthologous gene clusters</h1>
 <h4 class="author"><em>Matthew Zinkgraf</em></h4>
-<h4 class="date"><em>2017-02-10</em></h4>
+<h4 class="date"><em>2017-02-17</em></h4>
 
 </div>
 
@@ -143,8 +143,14 @@ $(document).ready(function () {
 <p>This vignette provides a detail workflow on how to carry out an Orthologous Clusting approach to identify conserved and lineage specific co-expressed gene modules. In addition, we illustrate various aspects of data manipulation, filtering and visualization of large transcriptomic experiments.</p>
 <div id="install-fastoc-and-dependant-packages" class="section level1">
 <h1><span class="header-section-number">1</span> Install fastOC and Dependant Packages</h1>
-<p>The fastOC package can be obtainded from github and installed using the following code:</p>
-<pre class="r"><code>    require(devtools);
+<p>The fastOC package can be obtainded from github and installed using <code>install_github()</code> from the devtools package. It is important to note that fastOC depends on other R packages, so please make sure they are installed before you begin. These packages include igraph, Matrix, WGCNA, reshape2, fastcluster and dynamicTreeCut.</p>
+<pre class="r"><code>    #install dependencies
+    install.packages(c(&quot;igraph&quot;, &quot;Matrix&quot;, &quot;WGCNA&quot;, 
+                       &quot;reshape2&quot;, &quot;fastcluster&quot;, &quot;dynamicTreeCut&quot;),
+                     dependencies = TRUE)
+
+    #install fastOC
+    require(devtools);
     install_github(&quot;mzinkgraf/fastOC&quot;);</code></pre>
 </div>
 <div id="setup-environment" class="section level1">

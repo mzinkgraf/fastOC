@@ -16,9 +16,15 @@ This vignette provides a detail workflow on how to carry out an Orthologous Clus
 
 # Install fastOC and Dependant Packages
 
-The fastOC package can be obtainded from github and installed using the following code:
+The fastOC package can be obtainded from github and installed using `install_github()` from the devtools package. It is important to note that fastOC depends on other R packages, so please make sure they are installed before you begin. These packages include igraph, Matrix, WGCNA, reshape2, fastcluster and dynamicTreeCut.
 
 ```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
+    #install dependencies
+    install.packages(c("igraph", "Matrix", "WGCNA", 
+                       "reshape2", "fastcluster", "dynamicTreeCut"),
+                     dependencies = TRUE)
+
+    #install fastOC
     require(devtools);
     install_github("mzinkgraf/fastOC");
 ```

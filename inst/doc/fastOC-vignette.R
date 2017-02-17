@@ -1,4 +1,10 @@
 ## ----results='hide', message=FALSE, warning=FALSE, eval=FALSE------------
+#      #install dependencies
+#      install.packages(c("igraph", "Matrix", "WGCNA",
+#                         "reshape2", "fastcluster", "dynamicTreeCut"),
+#                       dependencies = TRUE)
+#  
+#      #install fastOC
 #      require(devtools);
 #      install_github("mzinkgraf/fastOC");
 
