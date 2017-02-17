@@ -250,7 +250,9 @@ getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 3, parallel_apply=
       datExpr0<-t(rpkm[[q]])
 
       Cor<-corFast(datExpr0,nThreads = nThreads)
-      diag(Cor)<-0
+      #diag(Cor)<-0
+      nc<-nrow(Cor)
+      Cor[cbind(1:nc,1:nc)]<-0
       collectGarbage()
       edgelist<-weighted2rankList(Cor,top=top)
 
@@ -391,7 +393,9 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
       datExpr0<-t(rpkm[[q]])
       colnames(datExpr0)<-1:ncol(datExpr0)
       Cor<-corFast(datExpr0,nThreads = nThreads)
-      diag(Cor)<-0
+      #diag(Cor)<-0
+      nc<-nrow(Cor)
+      Cor[cbind(1:nc,1:nc)]<-0
       Cor<-Cor^power[q]
       collectGarbage()
       Cor[Cor<threshold]<-NA
