@@ -192,16 +192,26 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
 #' Correlation matrix to list of maximum
 #'
 #'For each row in a matrix determine index values of the top (default=5) most correlated genes. An internal function used by getEdgelist()
-#' @usage weighted2rankList(m, top=5)
+#' @usage weighted2rankList(m, top=5, parallel_apply=FALSE, nThreads=3)
 #' @param m A maxtrix of correlation values
 #' @param top An integer specifying the number values to return. Default = 5
+#' @param parallel_apply Logical value indicating if parRapply from parallel should be used in calulation Default = FALSE
+#' @param nThreads Integer specifying number of core to be used by parRapply. Default = 3
 #' @import reshape2
+#' @import parallel
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link{getEdgelist}}
 #' @export
-weighted2rankList<-function(m, top=5)
+weighted2rankList<-function(m, top=5, parallel_apply=FALSE, nThreads=3)
 {
+  if(parallel_apply & nThreads > 0)
+  {
+    clus <- makeCluster(nThreads); clusterExport(clus,"top");
+    tmp<-parRapply(clus,m,function(x) order(x,decreasing=TRUE)[1:top])
+    stopCluster(clus);
+  } else {
   tmp<-apply(m,1,function(x) order(x,decreasing=TRUE)[1:top])
+  }
   tmp<-as.data.frame(tmp)
   names(tmp)<-seq(1,ncol(tmp),1)
   out<-melt(tmp,factorsAsStrings = TRUE)
@@ -216,16 +226,18 @@ weighted2rankList<-function(m, top=5)
 #' Create an edgelist from rpkm expression values
 #'
 #'Generate an edgelist for each gene from a list of rpkm values and return each gene and its top most correlated neighbors
-#' @usage getEdgelist(rpkm, GeneMeta, top=5, weight=1, nThreads = 3)
+#' @usage getEdgelist(rpkm, GeneMeta, top=5, weight=1,
+#' nThreads = 3, parallel_apply=FALSE)
 #' @param rpkm A list object where each element in the list is a data frame of rpkm values for each species
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param top An integer specifying the number of neighbors for each gene that should be printed to the edgelist. Default = 5
 #' @param weight The edge weight between genes. Default = 1
 #' @param nThreads The number of multiple threads that should be used to calculate the correlation matrix. Default = 3
+#' @param parallel_apply Logical value indicating if parRapply from parallel should be used in calulation. Default = FALSE
 #' @import WGCNA
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @export
-getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 3)
+getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 3, parallel_apply=FALSE)
 {
   if(is.list(rpkm) & length(rpkm)>0)
   {
@@ -649,9 +661,6 @@ multiSppModules<-function(multiSpp_results, GeneMeta, minModuleSize, cut)
 #' @param outDir Directory to write files
 #' @return The function will convert the table.inParanoid format to a two column edgelist and print the results to a text file SppA_SppB_orthologs.txt
 #' @importFrom utils read.table write.table
-#' @examples
-#' load("Data/inParanoid_meta.rdata")
-#' parseInParanoid(Meta_Data)
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @export
 parseInParanoid<-function(MetaDataInParanoid, outDir = ".")

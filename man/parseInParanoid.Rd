@@ -17,10 +17,6 @@ The function will convert the table.inParanoid format to a two column edgelist a
 \description{
 Convert an inParanoid table format and output a table of ortholog edges
 }
-\examples{
-load("Data/inParanoid_meta.rdata")
-parseInParanoid(Meta_Data)
-}
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 }

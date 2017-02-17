@@ -4,7 +4,8 @@
 \alias{getEdgelist}
 \title{Create an edgelist from rpkm expression values}
 \usage{
-getEdgelist(rpkm, GeneMeta, top=5, weight=1, nThreads = 3)
+getEdgelist(rpkm, GeneMeta, top=5, weight=1,
+nThreads = 3, parallel_apply=FALSE)
 }
 \arguments{
 \item{rpkm}{A list object where each element in the list is a data frame of rpkm values for each species}
@@ -16,6 +17,8 @@ getEdgelist(rpkm, GeneMeta, top=5, weight=1, nThreads = 3)
 \item{weight}{The edge weight between genes. Default = 1}
 
 \item{nThreads}{The number of multiple threads that should be used to calculate the correlation matrix. Default = 3}
+
+\item{parallel_apply}{Logical value indicating if parRapply from parallel should be used in calulation. Default = FALSE}
 }
 \description{
 Generate an edgelist for each gene from a list of rpkm values and return each gene and its top most correlated neighbors

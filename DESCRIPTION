@@ -19,6 +19,7 @@ Imports:
     methods,
     Matrix,
     WGCNA,
+    parallel,
     reshape2,
     ggplot2,
     fastcluster,
