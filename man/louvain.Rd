@@ -14,6 +14,11 @@ louvain(edgelist, nruns)
 \description{
 Run the Louvain clustering method multiple times on a user defined set of edges. For each run, the edgelist is shuffled so the louvain method begins at a random starting point in the network.
 }
+\examples{
+data("Louvain_input")
+nRuns = 100
+results <- louvain(edgelist = combined_out, nruns= nRuns)
+}
 \references{
 Vincent D. Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre. 2008. Fast unfolding of communities in large networks. J. Stat. Mech. P10008
 }

@@ -87,7 +87,7 @@ createGeneMeta = function(rpkm)
 
 #'Check GeneMeta format
 #'
-#'Check to make sure the GeneMeta object is formated correctly and return summary of object
+#'Check to make sure the GeneMeta object is formatted correctly and return summary of object
 #' @usage checkGeneMetaFormat(GeneMeta)
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @return print error messages or PASS with summary of data
@@ -144,7 +144,7 @@ checkGeneMetaFormat<-function(GeneMeta)
 #'Read and combine multiple results files from a folder. The results are combined using cbind and the row order in each file must be the same.
 #' @usage multMerge(mypath, pattern="*\\\\.out", header=FALSE, sep=" ")
 #' @param mypath Path to folder.
-#' @param pattern Unique pattern that matches files to be be read and combined using perl style regular expressions.
+#' @param pattern Unique pattern that matches files to be be read and combined using Perl style regular expressions.
 #' @param header A logical value indicateing if the file contains a header row. Default = FALSE
 #' @param sep The field separator character.
 #' @importFrom utils read.table
@@ -167,7 +167,7 @@ multMerge = function(mypath, pattern="*\\.out", header=FALSE, sep=" ")
 #' @usage multMergeHTseq(mypath, pattern="*\\\\.htseq", byY="gene",
 #'     RegEx="(\\\\w+)\\\\.htseq\\\\.txt", Replace="\\\\1", sep="\t")
 #' @param mypath Path to folder.
-#' @param pattern Unique pattern that matches files to be read and merged using perl style regular expressions.
+#' @param pattern Unique pattern that matches files to be read and merged using Perl style regular expressions.
 #' @param byY Column name that should be used in the merge function.
 #' @param RegEx Perl style regular expression that matches pattern in the filename. Used to extract library name from filename. Example "(\\\\w+)\\\\.htseq\\\\.txt" matches Library1 in filename Library1.htseq.txt
 #' @param Replace Perl style replacement. Default = "\\\\1"
@@ -192,17 +192,17 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
 #' Correlation matrix to list of maximum
 #'
 #'For each row in a matrix determine index values of the top (default=5) most correlated genes. An internal function used by getEdgelist()
-#' @usage weighted2rankList(m, top=5, parallel_apply=FALSE, nThreads=3)
+#' @usage weighted2rankList(m, top=5, parallel_apply=FALSE, nThreads=2)
 #' @param m A maxtrix of correlation values
 #' @param top An integer specifying the number values to return. Default = 5
 #' @param parallel_apply Logical value indicating if parRapply from parallel should be used in calulation Default = FALSE
-#' @param nThreads Integer specifying number of core to be used by parRapply. Default = 3
+#' @param nThreads Integer specifying number of cores to be used by parRapply. Default = 2
 #' @import reshape2
 #' @import parallel
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link{getEdgelist}}
 #' @export
-weighted2rankList<-function(m, top=5, parallel_apply=FALSE, nThreads=3)
+weighted2rankList<-function(m, top=5, parallel_apply=FALSE, nThreads=2)
 {
   if(parallel_apply & nThreads > 0)
   {
@@ -227,17 +227,17 @@ weighted2rankList<-function(m, top=5, parallel_apply=FALSE, nThreads=3)
 #'
 #'Generate an edgelist for each gene from a list of rpkm values and return each gene and its top most correlated neighbors
 #' @usage getEdgelist(rpkm, GeneMeta, top=5, weight=1,
-#' nThreads = 3, parallel_apply=FALSE)
+#' nThreads = 2, parallel_apply=FALSE)
 #' @param rpkm A list object where each element in the list is a data frame of rpkm values for each species
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param top An integer specifying the number of neighbors for each gene that should be printed to the edgelist. Default = 5
 #' @param weight The edge weight between genes. Default = 1
-#' @param nThreads The number of multiple threads that should be used to calculate the correlation matrix. Default = 3
+#' @param nThreads The number of multiple threads that should be used to calculate the correlation matrix. Default = 2
 #' @param parallel_apply Logical value indicating if parRapply from parallel should be used in calulation. Default = FALSE
 #' @import WGCNA
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @export
-getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 3, parallel_apply=FALSE)
+getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=FALSE)
 {
   if(is.list(rpkm) & length(rpkm)>0)
   {
@@ -347,6 +347,10 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' @references Vincent D. Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre. 2008. Fast unfolding of communities in large networks. J. Stat. Mech. P10008
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso \code{\link[igraph]{cluster_louvain}}
+#' @examples
+#' data("Louvain_input")
+#' nRuns = 100
+#' results <- louvain(edgelist = combined_out, nruns= nRuns)
 #' @export
 louvain<-function(edgelist,nruns)
 {
@@ -382,7 +386,7 @@ louvain<-function(edgelist,nruns)
 }
 
 #Generate weighted edgelist using adjacency and low end cutoff
-getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
+getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 2)
 {
   if(is.list(rpkm) & length(rpkm)>0 & length(rpkm)==length(power))
   {
@@ -437,8 +441,8 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 3)
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param order The order in which genes should be plotted.
 #' @param CA_keep Sparse matrix of louvain community assignments generated from many runs of \code{\link{louvain}}
-#' @param sb An integer specifying the increment of the sequence to plot. Example plot every 12th gene in the order.
-#' @param remove_0 A logical value indicateing if the unclusterable genes should be plotted.
+#' @param sb An integer specifying the increment of the sequence to plot. Example plots every 12th gene in the order.
+#' @param remove_0 A logical value indicating if the unclusterable genes should be plotted.
 #' @param text_rotate Angle of module labels.
 #' @param lwd Line weight
 #' @param cex Font proportion
@@ -589,7 +593,7 @@ color.bar <- function(lut, min, max=-min, nticks=11, title='') {
 
 #'Hierarchical clustering of gene co-appearance in Louvain communities
 #'
-#'For each species calculate the a co-appeance matrix representing how often genes are assigned to the same Louvain communities and perform hierarchical clustering to determine which genes have similar co-appearance.
+#'For each species calculate a co-appearance matrix representing how often genes are assigned to the same Louvain communities and perform hierarchical clustering to determine which genes have similar co-appearance.
 #' @usage multiSppHclust(occurance, nRuns, GeneMeta)
 #' @param occurance Sparse matrix that contain the presence (1) and absence (0) of each gene in each Louvain community.
 #' @param nRuns Integer specifying the number of Louvain runs.
