@@ -10,7 +10,7 @@ multMergeHTseq(mypath, pattern="*\\\\.htseq", byY="gene",
 \arguments{
 \item{mypath}{Path to folder.}
 
-\item{pattern}{Unique pattern that matches files to be read and merged using perl style regular expressions.}
+\item{pattern}{Unique pattern that matches files to be read and merged using Perl style regular expressions.}
 
 \item{byY}{Column name that should be used in the merge function.}
 

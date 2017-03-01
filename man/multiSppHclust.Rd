@@ -14,7 +14,7 @@ multiSppHclust(occurance, nRuns, GeneMeta)
 \item{GeneMeta}{Data frame that contains the project metadata. See \link{createGeneMeta}}
 }
 \description{
-For each species calculate the a co-appeance matrix representing how often genes are assigned to the same Louvain communities and perform hierarchical clustering to determine which genes have similar co-appearance.
+For each species calculate a co-appearance matrix representing how often genes are assigned to the same Louvain communities and perform hierarchical clustering to determine which genes have similar co-appearance.
 }
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}

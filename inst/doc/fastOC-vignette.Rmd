@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette provides a detail workflow on how to carry out an Orthologous Clusting approach to identify conserved and lineage specific co-expressed gene modules. In addition, we illustrate various aspects of data manipulation, filtering and visualization of large transcriptomic experiments.
+This vignette provides a detail workflow on how to carry out an Orthologous Clustering approach to identify conserved and lineage specific co-expressed gene modules. In addition, we illustrate various aspects of data manipulation, filtering and visualization of large transcriptomic experiments.
 
 # Install fastOC and Dependant Packages
 
@@ -83,7 +83,7 @@ Example of GeneMeta:
 
 # Load Orthogous Data Sets
 
-Orhthologous relationships between genes is a central component of fastOC and are used to align co-expression patterns between species. The ortholougous relationships can be calcualted locally using programs such as inParanoid or OrthoMCL, or obtained from phytozome.net using the PhytoMine portal. If using inParanoid, see the function `parseInParanoid()` to format the inParanoid output into a two column format. 
+Orhthologous relationships between genes are a central component of fastOC and are used to align co-expression patterns between species. The ortholougous relationships can be calculated locally using programs such as inParanoid or OrthoMCL, or obtained from phytozome.net using the PhytoMine portal. If using inParanoid, see the function `parseInParanoid()` to format the inParanoid output into a two column format. 
 
 ```{r}
     ortho = list()
@@ -114,7 +114,7 @@ First, generate the edgelist for co-expressed genes within each species. The net
 
 ## Across species orthologous relationships
 
-Second, we will generate the orthologous weights in edgelist format that will be used to link the within species co-expression networks. The orthologous weight calculation takes into account the comple evolutionary relationship between genes and the strength of the weight between two genes is based on the number of orthologous connections^[Yan K-K, Wang D, Rozowsky J, Zheng H, Cheng C, Gerstein M. 2014. OrthoClust: an orthology-based network framework for clustering data across multiple species. Genome Biology 15(8): R100.]. In addition, a coupling constant (default = 1) can be applied to the orthologous weights to help balance the relative contribution of co-expression links within a species and the orthologous links across species.
+Second, we will generate the orthologous weights in edgelist format that will be used to link the within species co-expression networks. The orthologous weight calculation takes into account the complete evolutionary relationship between genes and the strength of the weight between two genes is based on the number of orthologous connections^[Yan K-K, Wang D, Rozowsky J, Zheng H, Cheng C, Gerstein M. 2014. OrthoClust: an orthology-based network framework for clustering data across multiple species. Genome Biology 15(8): R100.]. In addition, a coupling constant (default = 1) can be applied to the orthologous weights to help balance the relative contribution of co-expression links within a species and the orthologous links across species.
 
 ```{r, eval=FALSE}
     ortho_weights <- getOrthoWeights(ortho, GeneMeta, couple_const = 1)
@@ -143,7 +143,7 @@ Third, the two edgelists are combined into a single edgelist object.
 
 # Identify Orthologous Gene Modules
 
-Use the Louvain community detection method to identify groups of genes that are co-expressed within and orthologous across species. The louvain method is heuristic algorithm and should be run multiple times to reduce noise and incease significance of detected modules^[Vincent DB, Jean-Loup G, Renaud L, Etienne L. 2008. Fast unfolding of communities in large networks. Journal of Statistical Mechanics: Theory and Experiment 2008(10): P10008.].
+Use the Louvain community detection method to identify groups of genes that are co-expressed within and orthologous across species. The Louvain method is heuristic algorithm and should be run multiple times to reduce noise and incease significance of detected modules^[Vincent DB, Jean-Loup G, Renaud L, Etienne L. 2008. Fast unfolding of communities in large networks. Journal of Statistical Mechanics: Theory and Experiment 2008(10): P10008.].
 
 ```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
     nRuns = 100
@@ -151,7 +151,7 @@ Use the Louvain community detection method to identify groups of genes that are 
     save(results, file="../Data/igraph_louvain.rdata")
 ```
 
-Remove Louvain communities that have less than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use `hist(colSums(occurance))`,
+Remove Louvain communities that have fewer than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use `hist(colSums(occurance))`,
 
 ```{r, eval=FALSE}
     occurance <- filterCommunityAssign(results, minMem = 10)

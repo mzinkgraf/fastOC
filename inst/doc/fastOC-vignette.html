@@ -11,7 +11,7 @@
 
 <meta name="author" content="Matthew Zinkgraf" />
 
-<meta name="date" content="2017-02-22" />
+<meta name="date" content="2017-03-01" />
 
 <title>Running fastOC to identify orthologous gene clusters</title>
 
@@ -119,7 +119,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Running fastOC to identify orthologous gene clusters</h1>
 <h4 class="author"><em>Matthew Zinkgraf</em></h4>
-<h4 class="date"><em>2017-02-22</em></h4>
+<h4 class="date"><em>2017-03-01</em></h4>
 
 </div>
 
@@ -140,7 +140,7 @@ $(document).ready(function () {
 </ul>
 </div>
 
-<p>This vignette provides a detail workflow on how to carry out an Orthologous Clusting approach to identify conserved and lineage specific co-expressed gene modules. In addition, we illustrate various aspects of data manipulation, filtering and visualization of large transcriptomic experiments.</p>
+<p>This vignette provides a detail workflow on how to carry out an Orthologous Clustering approach to identify conserved and lineage specific co-expressed gene modules. In addition, we illustrate various aspects of data manipulation, filtering and visualization of large transcriptomic experiments.</p>
 <div id="install-fastoc-and-dependant-packages" class="section level1">
 <h1><span class="header-section-number">1</span> Install fastOC and Dependant Packages</h1>
 <p>The fastOC package can be obtainded from github and installed using <code>install_github()</code> from the devtools package. It is important to note that fastOC depends on other R packages, so please make sure they are installed before you begin. These packages include igraph, Matrix, WGCNA, reshape2, fastcluster and dynamicTreeCut.</p>
@@ -259,7 +259,7 @@ $(document).ready(function () {
 </div>
 <div id="load-orthogous-data-sets" class="section level1">
 <h1><span class="header-section-number">5</span> Load Orthogous Data Sets</h1>
-<p>Orhthologous relationships between genes is a central component of fastOC and are used to align co-expression patterns between species. The ortholougous relationships can be calcualted locally using programs such as inParanoid or OrthoMCL, or obtained from phytozome.net using the PhytoMine portal. If using inParanoid, see the function <code>parseInParanoid()</code> to format the inParanoid output into a two column format.</p>
+<p>Orhthologous relationships between genes are a central component of fastOC and are used to align co-expression patterns between species. The ortholougous relationships can be calculated locally using programs such as inParanoid or OrthoMCL, or obtained from phytozome.net using the PhytoMine portal. If using inParanoid, see the function <code>parseInParanoid()</code> to format the inParanoid output into a two column format.</p>
 <pre class="r"><code>    ortho = list()
       ortho$potri_eugra &lt;- read.table(&quot;../Data/potri_eugra.txt&quot;, sep = &quot; &quot;)
       ortho$potri_sapur &lt;- read.table(&quot;../Data/potri_sapur.txt&quot;, sep = &quot; &quot;)
@@ -306,7 +306,7 @@ $(document).ready(function () {
 </div>
 <div id="across-species-orthologous-relationships" class="section level2">
 <h2><span class="header-section-number">6.2</span> Across species orthologous relationships</h2>
-<p>Second, we will generate the orthologous weights in edgelist format that will be used to link the within species co-expression networks. The orthologous weight calculation takes into account the comple evolutionary relationship between genes and the strength of the weight between two genes is based on the number of orthologous connections<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In addition, a coupling constant (default = 1) can be applied to the orthologous weights to help balance the relative contribution of co-expression links within a species and the orthologous links across species.</p>
+<p>Second, we will generate the orthologous weights in edgelist format that will be used to link the within species co-expression networks. The orthologous weight calculation takes into account the complete evolutionary relationship between genes and the strength of the weight between two genes is based on the number of orthologous connections<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In addition, a coupling constant (default = 1) can be applied to the orthologous weights to help balance the relative contribution of co-expression links within a species and the orthologous links across species.</p>
 <pre class="r"><code>    ortho_weights &lt;- getOrthoWeights(ortho, GeneMeta, couple_const = 1)</code></pre>
 </div>
 <div id="combine-into-multi-layer-edgelist" class="section level2">
@@ -321,11 +321,11 @@ $(document).ready(function () {
 </div>
 <div id="identify-orthologous-gene-modules" class="section level1">
 <h1><span class="header-section-number">7</span> Identify Orthologous Gene Modules</h1>
-<p>Use the Louvain community detection method to identify groups of genes that are co-expressed within and orthologous across species. The louvain method is heuristic algorithm and should be run multiple times to reduce noise and incease significance of detected modules<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
+<p>Use the Louvain community detection method to identify groups of genes that are co-expressed within and orthologous across species. The Louvain method is heuristic algorithm and should be run multiple times to reduce noise and incease significance of detected modules<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <pre class="r"><code>    nRuns = 100
     results &lt;- louvain(combined_out, nRuns)
     save(results, file=&quot;../Data/igraph_louvain.rdata&quot;)</code></pre>
-<p>Remove Louvain communities that have less than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use <code>hist(colSums(occurance))</code>,</p>
+<p>Remove Louvain communities that have fewer than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use <code>hist(colSums(occurance))</code>,</p>
 <pre class="r"><code>    occurance &lt;- filterCommunityAssign(results, minMem = 10)
     save(occurance, file = &quot;Occurance_sparse.rdata&quot;)</code></pre>
 <p>Calculate co-appearacnce and perform hierarchical clustering to determine which genes have similar co-appearance. Co-appearance represents how often two genes are assigned to the same Louvain community.</p>

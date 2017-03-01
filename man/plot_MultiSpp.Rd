@@ -15,9 +15,9 @@ plot_MultiSpp(GeneMeta,order,CA_keep,sb=12, remove_0=TRUE,
 
 \item{CA_keep}{Sparse matrix of louvain community assignments generated from many runs of \code{\link{louvain}}}
 
-\item{sb}{An integer specifying the increment of the sequence to plot. Example plot every 12th gene in the order.}
+\item{sb}{An integer specifying the increment of the sequence to plot. Example plots every 12th gene in the order.}
 
-\item{remove_0}{A logical value indicateing if the unclusterable genes should be plotted.}
+\item{remove_0}{A logical value indicating if the unclusterable genes should be plotted.}
 
 \item{text_rotate}{Angle of module labels.}
 

@@ -13,7 +13,7 @@ checkGeneMetaFormat(GeneMeta)
 print error messages or PASS with summary of data
 }
 \description{
-Check to make sure the GeneMeta object is formated correctly and return summary of object
+Check to make sure the GeneMeta object is formatted correctly and return summary of object
 }
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}

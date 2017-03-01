@@ -9,7 +9,7 @@ multMerge(mypath, pattern="*\\\\.out", header=FALSE, sep=" ")
 \arguments{
 \item{mypath}{Path to folder.}
 
-\item{pattern}{Unique pattern that matches files to be be read and combined using perl style regular expressions.}
+\item{pattern}{Unique pattern that matches files to be be read and combined using Perl style regular expressions.}
 
 \item{header}{A logical value indicateing if the file contains a header row. Default = FALSE}
 

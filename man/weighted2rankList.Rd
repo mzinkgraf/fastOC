@@ -4,7 +4,7 @@
 \alias{weighted2rankList}
 \title{Correlation matrix to list of maximum}
 \usage{
-weighted2rankList(m, top=5, parallel_apply=FALSE, nThreads=3)
+weighted2rankList(m, top=5, parallel_apply=FALSE, nThreads=2)
 }
 \arguments{
 \item{m}{A maxtrix of correlation values}
@@ -13,7 +13,7 @@ weighted2rankList(m, top=5, parallel_apply=FALSE, nThreads=3)
 
 \item{parallel_apply}{Logical value indicating if parRapply from parallel should be used in calulation Default = FALSE}
 
-\item{nThreads}{Integer specifying number of core to be used by parRapply. Default = 3}
+\item{nThreads}{Integer specifying number of cores to be used by parRapply. Default = 2}
 }
 \description{
 For each row in a matrix determine index values of the top (default=5) most correlated genes. An internal function used by getEdgelist()
