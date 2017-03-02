@@ -4,12 +4,14 @@
 \alias{louvain}
 \title{Louvain community detection}
 \usage{
-louvain(edgelist, nruns)
+louvain(edgelist, nruns, nThreads = 1)
 }
 \arguments{
 \item{edgelist}{A data frame that contains three columns. The first two columns define the edges between gene_A and gene_B. Gene names must be converted to integer values. The third column defines the numeric edge weight.}
 
 \item{nruns}{An interger defining the number of runs.}
+
+\item{nThreads}{Integer specifying number of cores to be used by doParallel. Default = 1}
 }
 \description{
 Run the Louvain clustering method multiple times on a user defined set of edges. For each run, the edgelist is shuffled so the louvain method begins at a random starting point in the network.

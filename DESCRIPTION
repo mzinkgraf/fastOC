@@ -23,7 +23,9 @@ Imports:
     reshape2,
     ggplot2,
     fastcluster,
-    dynamicTreeCut
+    dynamicTreeCut,
+    foreach,
+    doParallel
 LazyData: TRUE
 RoxygenNote: 6.0.1
 Suggests: knitr,

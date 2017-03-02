@@ -366,10 +366,13 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' Louvain community detection
 #'
 #'Run the Louvain clustering method multiple times on a user defined set of edges. For each run, the edgelist is shuffled so the louvain method begins at a random starting point in the network.
-#' @usage louvain(edgelist, nruns)
+#' @usage louvain(edgelist, nruns, nThreads = 1)
 #' @param edgelist A data frame that contains three columns. The first two columns define the edges between gene_A and gene_B. Gene names must be converted to integer values. The third column defines the numeric edge weight.
 #' @param nruns An interger defining the number of runs.
+#' @param nThreads Integer specifying number of cores to be used by doParallel. Default = 1
 #' @import igraph
+#' @import foreach
+#' @import doParallel
 #' @importFrom stats rnorm
 #' @keywords louvain
 #' @references Vincent D. Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre. 2008. Fast unfolding of communities in large networks. J. Stat. Mech. P10008
@@ -380,36 +383,41 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' nRuns = 100
 #' results <- louvain(edgelist = combined_out, nruns= nRuns)
 #' @export
-louvain<-function(edgelist,nruns)
+louvain<-function(edgelist,nruns,nThreads=1)
 {
   if(is.data.frame(edgelist) & ncol(edgelist)==3)
   {
     colnames(edgelist)<-c("V1","V2","weight")
 
-    for(h in 1:nruns)
-    {
-      if(h==1)
+    if(nThreads==1)
       {
-        g<-graph_from_data_frame(edgelist,directed = F)
-        community<-cluster_louvain(g)
-        memb<-membership(community)
-        results<-as.data.frame(as.numeric(names(memb)))
-        results[,h+1]<-memb
-        print(modularity(community))
+        results<-foreach(1:nRuns,.combine=cbind) %do% {
+          rand_edge<-edgelist[order(rnorm(nrow(edgelist))),]
+          Rg<-igraph::graph_from_data_frame(rand_edge,directed = F)
+          Rcommunity<-igraph::cluster_louvain(Rg)
+          Rmemb<-igraph::membership(Rcommunity)
+          Rmemb[order(as.numeric(names(Rmemb)))]
+          #print(modularity(Rcommunity))
+          }
+      } else if (nThreads >1 )
+      {
+        cl<-makeCluster(nThreads)
+        registerDoParallel(cl)
+        results<-foreach(1:nRuns,.combine=cbind) %dopar% {
+          rand_edge<-edgelist[order(rnorm(nrow(edgelist))),]
+          Rg<-igraph::graph_from_data_frame(rand_edge,directed = F)
+          Rcommunity<-igraph::cluster_louvain(Rg)
+          Rmemb<-igraph::membership(Rcommunity)
+          Rmemb[order(as.numeric(names(Rmemb)))]
+          #print(modularity(Rcommunity))
+          }
+        stopCluster(cl)
       } else {
-        rand_edge<-edgelist[order(rnorm(nrow(edgelist))),]
-        Rg<-graph_from_data_frame(rand_edge,directed = F)
-        Rcommunity<-cluster_louvain(Rg)
-        Rmemb<-membership(Rcommunity)
-
-        results[,h+1]<-Rmemb[order(as.numeric(names(Rmemb)))]
-        print(modularity(Rcommunity))
+        stop("doParallel and foreach not working")
       }
-
-    }
-    return(results)
+    return(as.data.frame(results))
   } else {
-    return("Edges are not a data frame or does not have 3 columns")
+    stop("Edges are not a data frame or does not have 3 columns")
   }
 }
 
