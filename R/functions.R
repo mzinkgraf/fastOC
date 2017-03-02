@@ -391,7 +391,7 @@ louvain<-function(edgelist,nruns,nThreads=1)
 
     if(nThreads==1)
       {
-        results<-foreach(1:nRuns,.combine=cbind) %do% {
+        results<-foreach(1:nruns,.combine=cbind) %do% {
           rand_edge<-edgelist[order(rnorm(nrow(edgelist))),]
           Rg<-igraph::graph_from_data_frame(rand_edge,directed = F)
           Rcommunity<-igraph::cluster_louvain(Rg)
@@ -403,7 +403,7 @@ louvain<-function(edgelist,nruns,nThreads=1)
       {
         cl<-makeCluster(nThreads)
         registerDoParallel(cl)
-        results<-foreach(1:nRuns,.combine=cbind) %dopar% {
+        results<-foreach(1:nruns,.combine=cbind) %dopar% {
           rand_edge<-edgelist[order(rnorm(nrow(edgelist))),]
           Rg<-igraph::graph_from_data_frame(rand_edge,directed = F)
           Rcommunity<-igraph::cluster_louvain(Rg)
