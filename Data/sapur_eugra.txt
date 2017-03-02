@@ -1,3 +1,4 @@
+GeneA GeneB Genus spp relationship
 Eucgr.I02351 SapurV1A.0515s0100 E. grandis one-to-one
 Eucgr.I02068 SapurV1A.0645s0160 E. grandis one-to-one
 Eucgr.J02598 SapurV1A.1455s0030 E. grandis one-to-many

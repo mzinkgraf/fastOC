@@ -1,3 +1,4 @@
+GeneA GeneB Genus spp relationship
 Potri.017G039100 SapurV1A.0312s0070 S. purpurea one-to-one
 Potri.002G150000 SapurV1A.0024s0680 S. purpurea one-to-one
 Potri.006G280200 SapurV1A.0263s0060 S. purpurea one-to-one

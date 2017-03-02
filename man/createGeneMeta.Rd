@@ -12,6 +12,11 @@ createGeneMeta(rpkm)
 \description{
 This function generates a data frame that contains the species and gene information, and columns to store module results.
 }
+\examples{
+data("eugra_potri_sapur_rpkm")
+rpkm_var <- filterVariance(rpkm, variance = 0.1)
+GeneMeta <- createGeneMeta(rpkm_var)
+}
 \seealso{
 \code{\link{checkGeneMetaFormat}}
 }

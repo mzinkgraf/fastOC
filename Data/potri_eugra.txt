@@ -1,3 +1,4 @@
+GeneA GeneB Genus spp relationship
 Potri.005G114300 Eucgr.I02351 E. grandis one-to-one
 Potri.001G289200 Eucgr.I02503 E. grandis many-to-one
 Potri.009G084500 Eucgr.I02503 E. grandis many-to-one

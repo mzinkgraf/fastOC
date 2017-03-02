@@ -46,6 +46,9 @@ filterCommunityAssign <- function(results, minMem=10)
 #' @param variance Variance threshold.
 #' @importFrom stats var
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @examples
+#' data("eugra_potri_sapur_rpkm")
+#' rpkm_var <- filterVariance(rpkm, variance = 0.1)
 #' @export
 filterVariance = function(rpkm, variance=0.1)
 {
@@ -70,6 +73,10 @@ filterVariance = function(rpkm, variance=0.1)
 #' @param rpkm List object containing the rpkm values for each species.
 #' @seealso  \code{\link{checkGeneMetaFormat}}
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @examples
+#' data("eugra_potri_sapur_rpkm")
+#' rpkm_var <- filterVariance(rpkm, variance = 0.1)
+#' GeneMeta <- createGeneMeta(rpkm_var)
 #' @export
 createGeneMeta = function(rpkm)
 {
@@ -92,6 +99,11 @@ createGeneMeta = function(rpkm)
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @return print error messages or PASS with summary of data
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @examples
+#' data("eugra_potri_sapur_rpkm")
+#' rpkm_var <- filterVariance(rpkm, variance = 0.1)
+#' GeneMeta <- createGeneMeta(rpkm_var)
+#' checkGeneMetaFormat(GeneMeta)
 #' @export
 checkGeneMetaFormat<-function(GeneMeta)
 {
@@ -236,6 +248,11 @@ weighted2rankList<-function(m, top=5, parallel_apply=FALSE, nThreads=2)
 #' @param parallel_apply Logical value indicating if parRapply from parallel should be used in calulation. Default = FALSE
 #' @import WGCNA
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @examples
+#' data("eugra_potri_sapur_rpkm")
+#' rpkm_var <- filterVariance(rpkm, variance = 0.1)
+#' GeneMeta <- createGeneMeta(rpkm_var)
+#' gene_edgelist <- getEdgelist(rpkm_var, GeneMeta, top = 5)
 #' @export
 getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=FALSE)
 {
@@ -298,6 +315,17 @@ getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=
 #' @keywords gene ortholog
 #' @references Koon-Kiu Yan, Daifeng Wang, Joel Rozowsky, Henry Zheng, Chao Cheng and Mark Gerstein. 2014. OrthoClust: an orthology-based network framework for clustering data across multiple species. Genome Biology. 15:R100
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' #Create ortho
+#' data("GeneMeta")
+#' data("potri_eugra")
+#' data("potri_sapur")
+#' data("sapur_eugra")
+#'
+#' ortho <- list(potri_eugra = potri_eugra,
+#'            potri_sapur = potri_sapur, sapur_eugra = sapur_eugra)
+#'
+#' #calculate orthologous weights
+#' ortho_weights <- getOrthoWeights(ortho, GeneMeta, couple_const = 1)
 #' @export
 getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 {
@@ -453,6 +481,12 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 2)
 #' @importFrom graphics abline axis par plot rect segments text
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso \code{\link[igraph]{cluster_louvain}}
+#' @examples
+#' data("GeneMeta")
+#' data("Occurance_sparse")
+#' data("MultiSppTrees")
+#' plot_MultiSpp(GeneMeta = GeneMeta, order = MultiSpp_trees$order,
+#'       sb=12, CA_keep = occurance, remove_0 = F, lwd = 1, cex = 0.5)
 #' @export
 plot_MultiSpp<-function(GeneMeta,order,CA_keep,sb=12, remove_0=TRUE, text_rotate=NULL, lwd=0.5, cex=0.2, my_palette=colorRampPalette(c("white", "lightyellow", "red","black"))(n = 100))
 {
@@ -603,6 +637,11 @@ color.bar <- function(lut, min, max=-min, nticks=11, title='') {
 #' @importFrom Matrix tcrossprod
 #' @importFrom stats as.dist
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @examples
+#' data("GeneMeta")
+#' data("Occurance_sparse")
+#' nRuns = 100
+#' MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
 #' @export
 multiSppHclust<-function(occurance, nRuns, GeneMeta)
 {

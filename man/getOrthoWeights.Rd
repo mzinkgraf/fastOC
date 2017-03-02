@@ -21,6 +21,17 @@ Koon-Kiu Yan, Daifeng Wang, Joel Rozowsky, Henry Zheng, Chao Cheng and Mark Gers
 }
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#Create ortho
+data("GeneMeta")
+data("potri_eugra")
+data("potri_sapur")
+data("sapur_eugra")
+
+ortho <- list(potri_eugra = potri_eugra,
+           potri_sapur = potri_sapur, sapur_eugra = sapur_eugra)
+
+#calculate orthologous weights
+ortho_weights <- getOrthoWeights(ortho, GeneMeta, couple_const = 1)
 }
 \keyword{gene}
 \keyword{ortholog}

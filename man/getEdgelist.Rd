@@ -23,6 +23,12 @@ nThreads = 2, parallel_apply=FALSE)
 \description{
 Generate an edgelist for each gene from a list of rpkm values and return each gene and its top most correlated neighbors
 }
+\examples{
+data("eugra_potri_sapur_rpkm")
+rpkm_var <- filterVariance(rpkm, variance = 0.1)
+GeneMeta <- createGeneMeta(rpkm_var)
+gene_edgelist <- getEdgelist(rpkm_var, GeneMeta, top = 5)
+}
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 }

@@ -15,6 +15,12 @@ print error messages or PASS with summary of data
 \description{
 Check to make sure the GeneMeta object is formatted correctly and return summary of object
 }
+\examples{
+data("eugra_potri_sapur_rpkm")
+rpkm_var <- filterVariance(rpkm, variance = 0.1)
+GeneMeta <- createGeneMeta(rpkm_var)
+checkGeneMetaFormat(GeneMeta)
+}
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 }

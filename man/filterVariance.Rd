@@ -14,6 +14,10 @@ filterVariance(rpkm, variance=0.1)
 \description{
 This function filters rpkm expression data based on user defined variance threshold.
 }
+\examples{
+data("eugra_potri_sapur_rpkm")
+rpkm_var <- filterVariance(rpkm, variance = 0.1)
+}
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 }

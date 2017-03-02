@@ -16,6 +16,12 @@ multiSppHclust(occurance, nRuns, GeneMeta)
 \description{
 For each species calculate a co-appearance matrix representing how often genes are assigned to the same Louvain communities and perform hierarchical clustering to determine which genes have similar co-appearance.
 }
+\examples{
+data("GeneMeta")
+data("Occurance_sparse")
+nRuns = 100
+MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
+}
 \author{
 Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 }

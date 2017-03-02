@@ -87,9 +87,12 @@ Orhthologous relationships between genes are a central component of fastOC and a
 
 ```{r}
     ortho = list()
-      ortho$potri_eugra <- read.table("../Data/potri_eugra.txt", sep = " ")
-      ortho$potri_sapur <- read.table("../Data/potri_sapur.txt", sep = " ")
-      ortho$sapur_eugra <- read.table("../Data/sapur_eugra.txt", sep = " ")
+      ortho$potri_eugra <- read.table("../Data/potri_eugra.txt", 
+                                      sep = " ", header = TRUE)
+      ortho$potri_sapur <- read.table("../Data/potri_sapur.txt", 
+                                      sep = " ", header = TRUE)
+      ortho$sapur_eugra <- read.table("../Data/sapur_eugra.txt", 
+                                      sep = " ", header = TRUE)
 ```
 
 

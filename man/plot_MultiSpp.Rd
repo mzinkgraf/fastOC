@@ -30,6 +30,13 @@ plot_MultiSpp(GeneMeta,order,CA_keep,sb=12, remove_0=TRUE,
 \description{
 Plot co-appearance heatmap of co-expression network generated across multiple species
 }
+\examples{
+data("GeneMeta")
+data("Occurance_sparse")
+data("MultiSppTrees")
+plot_MultiSpp(GeneMeta = GeneMeta, order = MultiSpp_trees$order,
+      sb=12, CA_keep = occurance, remove_0 = F, lwd = 1, cex = 0.5)
+}
 \seealso{
 \code{\link[igraph]{cluster_louvain}}
 }
