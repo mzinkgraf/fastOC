@@ -6,7 +6,7 @@
 #'This function removes communities from the sparse matrix that have a minimum number of gene members
 #'
 #' @usage filterCommunityAssign(results,minMem=10)
-#' @param results Data frame containing the community assignments for each genes and contains nRuns+1 columns
+#' @param results Data frame containing the community assignments for each genes and contains nRuns+1 columns. The first column contains an integer referencing the GeneMeta ID
 #' @param minMem Minimum number of genes in a community to be considered significant. Default = 10
 #' @import methods
 #' @import igraph
@@ -23,6 +23,9 @@ filterCommunityAssign <- function(results, minMem=10)
     tmp=results[,c(1,j+1)]
     tmp[,3]=1
     names(tmp)=c("V1","V2","V3")
+
+    #remove zero community
+    tmp<-tmp[which(tmp[,2]!=0),]
     if(j==1)
     {
       d_sparse = sparseMatrix(as.integer(tmp[,1]), as.integer(tmp[,2]), x = tmp$V3)
@@ -366,7 +369,8 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' Louvain community detection
 #'
 #'Run the Louvain clustering method multiple times on a user defined set of edges. For each run, the edgelist is shuffled so the louvain method begins at a random starting point in the network.
-#' @usage louvain(edgelist, nruns, nThreads = 1)
+#' @usage louvain(GeneMeta, edgelist, nruns, nThreads = 1)
+#' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @param edgelist A data frame that contains three columns. The first two columns define the edges between gene_A and gene_B. Gene names must be converted to integer values. The third column defines the numeric edge weight.
 #' @param nruns An interger defining the number of runs.
 #' @param nThreads Integer specifying number of cores to be used by doParallel. Default = 1
@@ -380,15 +384,19 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' @seealso \code{\link[igraph]{cluster_louvain}}
 #' @examples
 #' data("Louvain_input")
+#' data("GeneMeta")
 #' nRuns = 100
-#' results <- louvain(edgelist = combined_out, nruns= nRuns)
+#' results <- louvain(GeneMeta, edgelist = combined_out, nruns= nRuns)
 #' @export
-louvain<-function(edgelist,nruns,nThreads=1)
+louvain<-function(GeneMeta,edgelist,nruns,nThreads=1)
 {
+  genes<-as.data.frame(GeneMeta[,4])
+  names(genes)<-"ID"
+
   if(is.data.frame(edgelist) & ncol(edgelist)==3)
   {
     colnames(edgelist)<-c("V1","V2","weight")
-
+    row.names(edgelist)<-seq(1,nrow(edgelist))
     if(nThreads==1)
       {
         results<-foreach(1:nruns,.combine=cbind) %do% {
@@ -415,7 +423,10 @@ louvain<-function(edgelist,nruns,nThreads=1)
       } else {
         stop("doParallel and foreach not working")
       }
-    return(as.data.frame(results))
+    Merged_results<-merge(genes,results,by.x="ID",by.y="row.names",all.x=TRUE)
+    Merged_results[is.na(Merged_results)]<-0
+
+    return(as.data.frame(Merged_results))
   } else {
     stop("Edges are not a data frame or does not have 3 columns")
   }

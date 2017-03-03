@@ -4,9 +4,11 @@
 \alias{louvain}
 \title{Louvain community detection}
 \usage{
-louvain(edgelist, nruns, nThreads = 1)
+louvain(GeneMeta, edgelist, nruns, nThreads = 1)
 }
 \arguments{
+\item{GeneMeta}{Data frame that contains the project metadata. See \link{createGeneMeta}}
+
 \item{edgelist}{A data frame that contains three columns. The first two columns define the edges between gene_A and gene_B. Gene names must be converted to integer values. The third column defines the numeric edge weight.}
 
 \item{nruns}{An interger defining the number of runs.}
@@ -18,8 +20,9 @@ Run the Louvain clustering method multiple times on a user defined set of edges.
 }
 \examples{
 data("Louvain_input")
+data("GeneMeta")
 nRuns = 100
-results <- louvain(edgelist = combined_out, nruns= nRuns)
+results <- louvain(GeneMeta, edgelist = combined_out, nruns= nRuns)
 }
 \references{
 Vincent D. Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre. 2008. Fast unfolding of communities in large networks. J. Stat. Mech. P10008

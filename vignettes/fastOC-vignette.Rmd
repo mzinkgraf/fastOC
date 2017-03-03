@@ -150,7 +150,7 @@ Use the Louvain community detection method to identify groups of genes that are 
 
 ```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
     nRuns = 100
-    results <- louvain(combined_out, nRuns)
+    results <- louvain(GeneMeta, combined_out, nRuns)
     save(results, file="../Data/igraph_louvain.rdata")
 ```
 
@@ -158,13 +158,14 @@ Remove Louvain communities that have fewer than a minimum number of members. To 
 
 ```{r, eval=FALSE}
     occurance <- filterCommunityAssign(results, minMem = 10)
-    save(occurance, file = "Occurance_sparse.rdata")
+    save(occurance, file = "../Data/Occurance_sparse.rdata")
 ```
 
 Calculate co-appearacnce and perform hierarchical clustering to determine which genes have similar co-appearance. Co-appearance represents how often two genes are assigned to the same Louvain community.
 
 ```{r, eval=FALSE}
     MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
+    save(MultiSpp_trees, file = "../Data/MultiSppTrees.rdata")
 ```
 
 Identify gene modules using dynamic tree cutting.
