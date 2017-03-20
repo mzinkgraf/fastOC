@@ -217,11 +217,11 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link{getEdgelist}}
 #' @export
-weighted2rankList<-function(m, top=5, parallel_apply=FALSE, nThreads=2)
+weighted2rankList<-function(m, top=5, nThreads=2, parallel_apply=FALSE)
 {
   if(parallel_apply & nThreads > 0)
   {
-    clus <- makeCluster(nThreads); clusterExport(clus,"top");
+    clus <- makeCluster(nThreads); clusterExport(clus,varlist = c("m","top"),envir=environment());
     tmp<-parRapply(clus,m,function(x) order(x,decreasing=TRUE)[1:top])
     stopCluster(clus);
   } else {
@@ -274,7 +274,7 @@ getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=
       nc<-nrow(Cor)
       Cor[cbind(1:nc,1:nc)]<-0
       collectGarbage()
-      edgelist<-weighted2rankList(Cor,top=top)
+      edgelist<-weighted2rankList(Cor,top=top, nThreads = nThreads, parallel_apply = parallel_apply)
 
       if(q==1)
       {
@@ -349,10 +349,10 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
       geneB<-as.character(tmp[,2])
       TgeneA<-table(geneA)
       TgeneB<-table(geneB)
-      ow1<-TgeneA[tmp[,1]]
-      ow2<-TgeneB[tmp[,2]]
+      ow1<-TgeneA[geneA]
+      ow2<-TgeneB[geneB]
       w<-as.data.frame((1/ow1+1/ow2)/2)[,2]*couple_const
-      o<-data.frame(cbind(gnames[tmp[,1],3],gnames[tmp[,2],3],w))
+      o<-data.frame(cbind(gnames[geneA,3],gnames[geneB,3],w))
       ortho_weights<-rbind(ortho_weights,o)
     }
 

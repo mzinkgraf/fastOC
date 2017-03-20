@@ -11,9 +11,9 @@ weighted2rankList(m, top=5, parallel_apply=FALSE, nThreads=2)
 
 \item{top}{An integer specifying the number values to return. Default = 5}
 
-\item{parallel_apply}{Logical value indicating if parRapply from parallel should be used in calulation Default = FALSE}
-
 \item{nThreads}{Integer specifying number of cores to be used by parRapply. Default = 2}
+
+\item{parallel_apply}{Logical value indicating if parRapply from parallel should be used in calulation Default = FALSE}
 }
 \description{
 For each row in a matrix determine index values of the top (default=5) most correlated genes. An internal function used by getEdgelist()
