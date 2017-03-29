@@ -214,6 +214,7 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
 #' @param nThreads Integer specifying number of cores to be used by parRapply. Default = 2
 #' @import reshape2
 #' @import parallel
+#' @import igraph
 #' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
 #' @seealso  \code{\link{getEdgelist}}
 #' @export
@@ -229,13 +230,15 @@ weighted2rankList<-function(m, top=5, nThreads=2, parallel_apply=FALSE)
   }
   tmp<-as.data.frame(tmp)
   names(tmp)<-seq(1,ncol(tmp),1)
-  out<-melt(tmp,factorsAsStrings = TRUE)
-  out[,1]<-as.numeric(as.character(out[,1]))
-  #remove duplicates
-  cat1<-paste(out[,1],out[,2],sep="_")
-  cat2<-paste(out[,2],out[,1],sep="_")
-  dup<-which(cat2 %in% cat1)
-  return(out[-dup,])
+  out<-as.data.frame(melt(tmp,factorsAsStrings = TRUE))
+  out[,3]<-1
+  
+  g<-graph_from_data_frame(out,directed = FALSE)
+  
+  g1<-simplify(g)
+  
+  E<-get.edgelist(g1,names = F)
+  return(E)
 }
 
 #' Create an edgelist from rpkm expression values
