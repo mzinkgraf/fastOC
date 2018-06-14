@@ -272,7 +272,7 @@ getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=
 
       datExpr0<-t(rpkm[[q]])
 
-      Cor<-corFast(datExpr0,nThreads = nThreads)
+      Cor<-WGCNA::cor(datExpr0,method="pearson",nThreads = nThreads)
       #diag(Cor)<-0
       nc<-nrow(Cor)
       Cor[cbind(1:nc,1:nc)]<-0

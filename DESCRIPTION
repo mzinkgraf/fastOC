@@ -5,7 +5,7 @@ Version: 0.99.1
 Author: Matthew Zinkgraf, Vladimir Filkov
 Maintainer: Matthew Zinkgraf <mzinkgraf@gmail.com>
 Description: Perform co-exprssion analyses across multiple species using gene
-    expression from indivisual species and orthologous relations between species.
+    expression from individual species and orthologous relations between species.
 License: GPL (>=3)
 Depends:
     R (>= 3.3.0),igraph,
