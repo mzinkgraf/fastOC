@@ -49,15 +49,22 @@ Before you start the analysis, begin by setting up the work environment and load
 Begin by loading or creating a list object containing the rpkm expression data. Each element in the list should pertain to the rpkm values for a given species and it is helpful to name each list element after the species.
 
 
+<<<<<<< HEAD
 ```{r,eval=FALSE}
     data("rpkm")
     names(rpkm)
 ```
 
+=======
+>>>>>>> 2ca324f234124cdddc5696f8c7a2cc1193da04dc
 ```{r, echo=FALSE}
       ##load rpkm data sets
       load("../data/rpkm.rda")
       names(rpkm)
+```
+```{r,eval=FALSE}
+    data("rpkm")
+    names(rpkm)
 ```
 
 

@@ -17,14 +17,21 @@
     getwd()
     #list.files()
 
+<<<<<<< HEAD
 ## ----eval=FALSE----------------------------------------------------------
 #      data("rpkm")
 #      names(rpkm)
 
+=======
+>>>>>>> 2ca324f234124cdddc5696f8c7a2cc1193da04dc
 ## ---- echo=FALSE---------------------------------------------------------
       ##load rpkm data sets
       load("../data/rpkm.rda")
       names(rpkm)
+
+## ----eval=FALSE----------------------------------------------------------
+#      data("rpkm")
+#      names(rpkm)
 
 ## ---- results = "asis",echo = FALSE--------------------------------------
   pander::pandoc.table(rpkm$potri[1:4,1:2])
