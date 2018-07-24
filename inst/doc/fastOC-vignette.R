@@ -14,11 +14,17 @@
     options(stringsAsFactors = FALSE);
     #change working directory
     setwd(".")
+    getwd()
+    #list.files()
 
-## ------------------------------------------------------------------------
-    #load rpkm data sets
-      load("../Data/eugra_potri_sapur_rpkm.rdata")
+## ---- echo=FALSE---------------------------------------------------------
+      ##load rpkm data sets
+      load("../data/rpkm.rda")
       names(rpkm)
+
+## ----eval=FALSE----------------------------------------------------------
+#      data("rpkm")
+#      names(rpkm)
 
 ## ---- results = "asis",echo = FALSE--------------------------------------
   pander::pandoc.table(rpkm$potri[1:4,1:2])
@@ -36,12 +42,16 @@
 
 ## ------------------------------------------------------------------------
     ortho = list()
-      ortho$potri_eugra <- read.table("../Data/potri_eugra.txt", 
+      ortho$potri_eugra <- read.table("../inst/extdata/potri_eugra.txt", 
                                       sep = " ", header = TRUE)
-      ortho$potri_sapur <- read.table("../Data/potri_sapur.txt", 
+      ortho$potri_sapur <- read.table("../inst/extdata/potri_sapur.txt", 
                                       sep = " ", header = TRUE)
-      ortho$sapur_eugra <- read.table("../Data/sapur_eugra.txt", 
+      ortho$sapur_eugra <- read.table("../inst/extdata/sapur_eugra.txt", 
                                       sep = " ", header = TRUE)
+
+## ---- eval = FALSE-------------------------------------------------------
+#      #or lazyload
+#      data(ortho)
 
 ## ---- results = "asis",echo = FALSE--------------------------------------
   names(ortho$potri_eugra)[1:2]<-c("GeneA","GeneB")
@@ -59,26 +69,26 @@
 #    combined_out <- rbind(gene_edgelist, ortho_weights)
 #  
 #    #write file to disk
-#    save(combined_out,file="../Data/Louvain_input.rdata")
+#    save(combined_out,file="Louvain_input.rdata")
 #  
 
 ## ---- echo = FALSE-------------------------------------------------------
-    load("../Data/Louvain_input.rdata");
-    load("../Data/MultiSppTrees.rdata");
-    load("../Data/Occurance_sparse.rdata");
+    load("../data/combined_out.rda");
+    load("../data/MultiSpp_trees.rda");
+    load("../data/occurance.rda");
 
 ## ----results='hide', message=FALSE, warning=FALSE, eval=FALSE------------
 #      nRuns = 100
 #      results <- louvain(GeneMeta, combined_out, nRuns)
-#      save(results, file="../Data/igraph_louvain.rdata")
+#      save(results, file="igraph_louvain.rdata")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #      occurance <- filterCommunityAssign(results, minMem = 10)
-#      save(occurance, file = "../Data/Occurance_sparse.rdata")
+#      save(occurance, file = "Occurance_sparse.rdata")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #      MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
-#      save(MultiSpp_trees, file = "../Data/MultiSppTrees.rdata")
+#      save(MultiSpp_trees, file = "MultiSppTrees.rdata")
 
 ## ------------------------------------------------------------------------
     MultiSpp_modules <- multiSppModules(MultiSpp_trees, GeneMeta, 
@@ -89,7 +99,7 @@
 
     GeneMeta[,3]<-do.call(c,lapply(seq_along(MultiSpp_modules), function(y, i) { y[[i]] }, y=MultiSpp_modules))
 
-## ----fig.show='hold',results='hide', message=FALSE, warning=FALSE----
+## ----fig.show='hold',results='hide', message=FALSE, warning=FALSE--------
     #Create heatmap of co-appearance modules across all species
     par(fig=c(0,1,0,1))
     plot_MultiSpp(GeneMeta = GeneMeta, order = MultiSpp_trees$order, 
