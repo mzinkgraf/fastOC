@@ -19,5 +19,5 @@ multiSppModules(multiSpp_results, GeneMeta, minModuleSize, cut)
 Use cutreeDynamic to identify gene modules that have high co-appearance.
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

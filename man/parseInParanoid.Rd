@@ -18,5 +18,5 @@ The function will convert the table.inParanoid format to a two column edgelist a
 Convert an inParanoid table format and output a table of ortholog edges
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

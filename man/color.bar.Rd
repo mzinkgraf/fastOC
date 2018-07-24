@@ -21,5 +21,5 @@ color.bar(lut, min, max=-min, nticks=11, title='')
 Plot a user defined color scale
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

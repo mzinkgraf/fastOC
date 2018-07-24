@@ -32,7 +32,7 @@ Plot co-appearance heatmap of co-expression network generated across multiple sp
 }
 \examples{
 data("GeneMeta")
-data("Occurance_sparse")
+data("occurance")
 data("MultiSppTrees")
 plot_MultiSpp(GeneMeta = GeneMeta, order = MultiSpp_trees$order,
       sb=12, CA_keep = occurance, remove_0 = F, lwd = 1, cex = 0.5)
@@ -41,5 +41,5 @@ plot_MultiSpp(GeneMeta = GeneMeta, order = MultiSpp_trees$order,
 \code{\link[igraph]{cluster_louvain}}
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

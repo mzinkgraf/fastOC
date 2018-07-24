@@ -18,10 +18,10 @@ For each species calculate a co-appearance matrix representing how often genes a
 }
 \examples{
 data("GeneMeta")
-data("Occurance_sparse")
+data("occurance")
 nRuns = 100
 MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

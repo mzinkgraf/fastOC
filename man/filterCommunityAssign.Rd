@@ -18,5 +18,5 @@ Returns a sparse matrix containing to occurance of each gene in each community. 
 This function removes communities from the sparse matrix that have a minimum number of gene members
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

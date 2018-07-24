@@ -1,1 +1,0 @@
-file	sppA	sppB“../Data/table.litul_v1.0.aa-listy_v1.0.aa”	litul	listy

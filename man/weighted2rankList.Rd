@@ -22,5 +22,5 @@ For each row in a matrix determine index values of the top (default=5) most corr
 \code{\link{getEdgelist}}
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

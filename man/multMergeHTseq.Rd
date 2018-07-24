@@ -27,5 +27,5 @@ Read and combine tab deliminted htseq results files from a folder using the merg
 \code{\link[base]{list.files}}
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }

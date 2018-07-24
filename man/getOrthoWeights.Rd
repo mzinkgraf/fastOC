@@ -20,7 +20,7 @@ Generate a coupling matrix that connects species based on the orthologus relatio
 Koon-Kiu Yan, Daifeng Wang, Joel Rozowsky, Henry Zheng, Chao Cheng and Mark Gerstein. 2014. OrthoClust: an orthology-based network framework for clustering data across multiple species. Genome Biology. 15:R100
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #Create ortho
 data("GeneMeta")
 data("potri_eugra")

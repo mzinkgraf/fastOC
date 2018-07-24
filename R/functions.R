@@ -13,7 +13,7 @@
 #' @import Matrix
 #' @importMethodsFrom Matrix colSums
 #' @return Returns a sparse matrix containing to occurance of each gene in each community. 1 = present and 0 = absent
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @export
 filterCommunityAssign <- function(results, minMem=10)
 {
@@ -48,9 +48,9 @@ filterCommunityAssign <- function(results, minMem=10)
 #' @param rpkm List object containing the rpkm values for each species.
 #' @param variance Variance threshold.
 #' @importFrom stats var
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @examples
-#' data("eugra_potri_sapur_rpkm")
+#' data("rpkm")
 #' rpkm_var <- filterVariance(rpkm, variance = 0.1)
 #' @export
 filterVariance = function(rpkm, variance=0.1)
@@ -75,9 +75,9 @@ filterVariance = function(rpkm, variance=0.1)
 #' @usage createGeneMeta(rpkm)
 #' @param rpkm List object containing the rpkm values for each species.
 #' @seealso  \code{\link{checkGeneMetaFormat}}
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @examples
-#' data("eugra_potri_sapur_rpkm")
+#' data("rpkm")
 #' rpkm_var <- filterVariance(rpkm, variance = 0.1)
 #' GeneMeta <- createGeneMeta(rpkm_var)
 #' @export
@@ -101,9 +101,9 @@ createGeneMeta = function(rpkm)
 #' @usage checkGeneMetaFormat(GeneMeta)
 #' @param GeneMeta Data frame that contains the project metadata. See \link{createGeneMeta}
 #' @return print error messages or PASS with summary of data
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @examples
-#' data("eugra_potri_sapur_rpkm")
+#' data("rpkm")
 #' rpkm_var <- filterVariance(rpkm, variance = 0.1)
 #' GeneMeta <- createGeneMeta(rpkm_var)
 #' checkGeneMetaFormat(GeneMeta)
@@ -163,7 +163,7 @@ checkGeneMetaFormat<-function(GeneMeta)
 #' @param header A logical value indicateing if the file contains a header row. Default = FALSE
 #' @param sep The field separator character.
 #' @importFrom utils read.table
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @seealso  \code{\link[base]{list.files}}
 #' @export
 multMerge = function(mypath, pattern="*\\.out", header=FALSE, sep=" ")
@@ -188,7 +188,7 @@ multMerge = function(mypath, pattern="*\\.out", header=FALSE, sep=" ")
 #' @param Replace Perl style replacement. Default = "\\\\1"
 #' @param sep The field separator character.
 #' @importFrom utils read.table
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @seealso  \code{\link[base]{list.files}}
 #' @export
 #combine htseq results into a single data frame
@@ -215,7 +215,7 @@ multMergeHTseq = function(mypath, pattern="*\\.htseq", byY="gene",
 #' @import reshape2
 #' @import parallel
 #' @import igraph
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @seealso  \code{\link{getEdgelist}}
 #' @export
 weighted2rankList<-function(m, top=5, nThreads=2, parallel_apply=FALSE)
@@ -232,11 +232,11 @@ weighted2rankList<-function(m, top=5, nThreads=2, parallel_apply=FALSE)
   names(tmp)<-seq(1,ncol(tmp),1)
   out<-as.data.frame(melt(tmp,factorsAsStrings = TRUE))
   out[,3]<-1
-  
+
   g<-graph_from_data_frame(out,directed = FALSE)
-  
+
   g1<-simplify(g)
-  
+
   E<-get.edgelist(g1,names = F)
   return(E)
 }
@@ -253,9 +253,9 @@ weighted2rankList<-function(m, top=5, nThreads=2, parallel_apply=FALSE)
 #' @param nThreads The number of multiple threads that should be used to calculate the correlation matrix. Default = 2
 #' @param parallel_apply Logical value indicating if parRapply from parallel should be used in calulation. Default = FALSE
 #' @import WGCNA
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @examples
-#' data("eugra_potri_sapur_rpkm")
+#' data("rpkm")
 #' rpkm_var <- filterVariance(rpkm, variance = 0.1)
 #' GeneMeta <- createGeneMeta(rpkm_var)
 #' gene_edgelist <- getEdgelist(rpkm_var, GeneMeta, top = 5)
@@ -320,7 +320,7 @@ getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=
 #' @param couple_const A contant that determines the relative contribution of orthologous gene relationships between species. Default=1
 #' @keywords gene ortholog
 #' @references Koon-Kiu Yan, Daifeng Wang, Joel Rozowsky, Henry Zheng, Chao Cheng and Mark Gerstein. 2014. OrthoClust: an orthology-based network framework for clustering data across multiple species. Genome Biology. 15:R100
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' #Create ortho
 #' data("GeneMeta")
 #' data("potri_eugra")
@@ -383,10 +383,10 @@ getOrthoWeights<-function(ortho,GeneMeta,couple_const=1)
 #' @importFrom stats rnorm
 #' @keywords louvain
 #' @references Vincent D. Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre. 2008. Fast unfolding of communities in large networks. J. Stat. Mech. P10008
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @seealso \code{\link[igraph]{cluster_louvain}}
 #' @examples
-#' data("Louvain_input")
+#' data("combined_out")
 #' data("GeneMeta")
 #' nRuns = 100
 #' results <- louvain(GeneMeta, edgelist = combined_out, nruns= nRuns)
@@ -501,11 +501,11 @@ getEdgelistWeighted<-function(rpkm,nGenes,power=c(6),threshold=0.8,nThreads = 2)
 #' @importFrom Matrix tcrossprod
 #' @importFrom grDevices colorRampPalette
 #' @importFrom graphics abline axis par plot rect segments text
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @seealso \code{\link[igraph]{cluster_louvain}}
 #' @examples
 #' data("GeneMeta")
-#' data("Occurance_sparse")
+#' data("occurance")
 #' data("MultiSppTrees")
 #' plot_MultiSpp(GeneMeta = GeneMeta, order = MultiSpp_trees$order,
 #'       sb=12, CA_keep = occurance, remove_0 = F, lwd = 1, cex = 0.5)
@@ -631,7 +631,7 @@ getEdgelist_from_GeneNames<-function(edges,GeneMeta)
 #' @param nticks Number of ticks
 #' @param title Title for color scale.
 #' @importFrom grDevices colorRampPalette
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @export
 #'
 color.bar <- function(lut, min, max=-min, nticks=11, title='') {
@@ -658,10 +658,10 @@ color.bar <- function(lut, min, max=-min, nticks=11, title='') {
 #' @import methods
 #' @importFrom Matrix tcrossprod
 #' @importFrom stats as.dist
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @examples
 #' data("GeneMeta")
-#' data("Occurance_sparse")
+#' data("occurance")
 #' nRuns = 100
 #' MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
 #' @export
@@ -697,7 +697,7 @@ multiSppHclust<-function(occurance, nRuns, GeneMeta)
 #' @param minModuleSize A vector containing the minimum module size to be used for each species in the data set.
 #' @param cut A vector containing the cut height to be used for species in the data set
 #' @import dynamicTreeCut
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @export
 multiSppModules<-function(multiSpp_results, GeneMeta, minModuleSize, cut)
 {
@@ -730,7 +730,7 @@ multiSppModules<-function(multiSpp_results, GeneMeta, minModuleSize, cut)
 #' @param outDir Directory to write files
 #' @return The function will convert the table.inParanoid format to a two column edgelist and print the results to a text file SppA_SppB_orthologs.txt
 #' @importFrom utils read.table write.table
-#' @author Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+#' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @export
 parseInParanoid<-function(MetaDataInParanoid, outDir = ".")
 {

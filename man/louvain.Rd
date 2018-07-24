@@ -19,7 +19,7 @@ louvain(GeneMeta, edgelist, nruns, nThreads = 1)
 Run the Louvain clustering method multiple times on a user defined set of edges. For each run, the edgelist is shuffled so the louvain method begins at a random starting point in the network.
 }
 \examples{
-data("Louvain_input")
+data("combined_out")
 data("GeneMeta")
 nRuns = 100
 results <- louvain(GeneMeta, edgelist = combined_out, nruns= nRuns)
@@ -31,6 +31,6 @@ Vincent D. Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre. 200
 \code{\link[igraph]{cluster_louvain}}
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }
 \keyword{louvain}

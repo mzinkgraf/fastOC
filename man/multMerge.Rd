@@ -22,5 +22,5 @@ Read and combine multiple results files from a folder. The results are combined 
 \code{\link[base]{list.files}}
 }
 \author{
-Matthew Zinkgraf, \email{mzinkgraf@gmail.com}
+Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 }
