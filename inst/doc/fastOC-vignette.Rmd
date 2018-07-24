@@ -40,6 +40,8 @@ Before you start the analysis, begin by setting up the work environment and load
     options(stringsAsFactors = FALSE);
     #change working directory
     setwd(".")
+    getwd()
+    #list.files()
 ```
 
 # Load and Prepare Expression Data Sets
@@ -47,11 +49,17 @@ Before you start the analysis, begin by setting up the work environment and load
 Begin by loading or creating a list object containing the rpkm expression data. Each element in the list should pertain to the rpkm values for a given species and it is helpful to name each list element after the species.
 
 
-```{r}
-    #load rpkm data sets
-      load("../Data/eugra_potri_sapur_rpkm.rdata")
+```{r,eval=FALSE}
+    data("rpkm")
+    names(rpkm)
+```
+
+```{r, echo=FALSE}
+      ##load rpkm data sets
+      load("../data/rpkm.rda")
       names(rpkm)
 ```
+
 
 Example of the expression data and data.frame layout for rpkm$potri:
 
@@ -87,14 +95,18 @@ Orhthologous relationships between genes are a central component of fastOC and a
 
 ```{r}
     ortho = list()
-      ortho$potri_eugra <- read.table("../Data/potri_eugra.txt", 
+      ortho$potri_eugra <- read.table("../inst/extdata/potri_eugra.txt", 
                                       sep = " ", header = TRUE)
-      ortho$potri_sapur <- read.table("../Data/potri_sapur.txt", 
+      ortho$potri_sapur <- read.table("../inst/extdata/potri_sapur.txt", 
                                       sep = " ", header = TRUE)
-      ortho$sapur_eugra <- read.table("../Data/sapur_eugra.txt", 
+      ortho$sapur_eugra <- read.table("../inst/extdata/sapur_eugra.txt", 
                                       sep = " ", header = TRUE)
 ```
 
+```{r, eval = FALSE}
+    #or lazyload
+    data(ortho)
+```
 
 Example of orthologous table for ortho$potri_eugra:
 
@@ -133,14 +145,14 @@ Third, the two edgelists are combined into a single edgelist object.
   combined_out <- rbind(gene_edgelist, ortho_weights)
   
   #write file to disk
-  save(combined_out,file="../Data/Louvain_input.rdata")
+  save(combined_out,file="Louvain_input.rdata")
 
 ```
 
 ```{r, echo = FALSE}
-    load("../Data/Louvain_input.rdata");
-    load("../Data/MultiSppTrees.rdata");
-    load("../Data/Occurance_sparse.rdata");
+    load("../data/combined_out.rda");
+    load("../data/MultiSpp_trees.rda");
+    load("../data/occurance.rda");
 ```
 
 
@@ -151,21 +163,21 @@ Use the Louvain community detection method to identify groups of genes that are 
 ```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
     nRuns = 100
     results <- louvain(GeneMeta, combined_out, nRuns)
-    save(results, file="../Data/igraph_louvain.rdata")
+    save(results, file="igraph_louvain.rdata")
 ```
 
 Remove Louvain communities that have fewer than a minimum number of members. To get an idea of how many genes are assigned to each Louvain community use `hist(colSums(occurance))`,
 
 ```{r, eval=FALSE}
     occurance <- filterCommunityAssign(results, minMem = 10)
-    save(occurance, file = "../Data/Occurance_sparse.rdata")
+    save(occurance, file = "Occurance_sparse.rdata")
 ```
 
 Calculate co-appearacnce and perform hierarchical clustering to determine which genes have similar co-appearance. Co-appearance represents how often two genes are assigned to the same Louvain community.
 
 ```{r, eval=FALSE}
     MultiSpp_trees <- multiSppHclust(occurance, nRuns, GeneMeta)
-    save(MultiSpp_trees, file = "../Data/MultiSppTrees.rdata")
+    save(MultiSpp_trees, file = "MultiSppTrees.rdata")
 ```
 
 Identify gene modules using dynamic tree cutting.

@@ -49,10 +49,14 @@ Before you start the analysis, begin by setting up the work environment and load
 Begin by loading or creating a list object containing the rpkm expression data. Each element in the list should pertain to the rpkm values for a given species and it is helpful to name each list element after the species.
 
 
-```{r}
+```{r, echo=FALSE}
       ##load rpkm data sets
       load("../data/rpkm.rda")
       names(rpkm)
+```
+```{r,eval=FALSE}
+    data("rpkm")
+    names(rpkm)
 ```
 
 Example of the expression data and data.frame layout for rpkm$potri:
@@ -97,6 +101,10 @@ Orhthologous relationships between genes are a central component of fastOC and a
                                       sep = " ", header = TRUE)
 ```
 
+```{r, eval = FALSE}
+    #or lazyload
+    data(ortho)
+```
 
 Example of orthologous table for ortho$potri_eugra:
 
@@ -160,7 +168,7 @@ Remove Louvain communities that have fewer than a minimum number of members. To 
 
 ```{r, eval=FALSE}
     occurance <- filterCommunityAssign(results, minMem = 10)
-    save(occurance, file = ".Occurance_sparse.rdata")
+    save(occurance, file = "Occurance_sparse.rdata")
 ```
 
 Calculate co-appearacnce and perform hierarchical clustering to determine which genes have similar co-appearance. Co-appearance represents how often two genes are assigned to the same Louvain community.
