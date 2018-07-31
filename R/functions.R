@@ -7,6 +7,7 @@
 #'
 #' @usage filterCommunityAssign(results,minMem=10)
 #' @param results Data frame containing the community assignments for each genes and contains nRuns+1 columns. The first column contains an integer referencing the GeneMeta ID
+#' @param nRuns Number of runs used in the Louvain community assignment. Default is to calculate from results table.
 #' @param minMem Minimum number of genes in a community to be considered significant. Default = 10
 #' @import methods
 #' @import igraph
@@ -15,9 +16,13 @@
 #' @return Returns a sparse matrix containing to occurance of each gene in each community. 1 = present and 0 = absent
 #' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @export
-filterCommunityAssign <- function(results, minMem=10)
+filterCommunityAssign <- function(results, nRuns=NULL, minMem=10)
 {
-  nRuns=ncol(results)-1
+  if (is.null(nRuns))
+    {
+    nRuns=ncol(results)-1
+  }
+
   for(j in 1:nRuns)
   {
     tmp=results[,c(1,j+1)]

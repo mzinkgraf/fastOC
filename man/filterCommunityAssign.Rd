@@ -9,6 +9,8 @@ filterCommunityAssign(results,minMem=10)
 \arguments{
 \item{results}{Data frame containing the community assignments for each genes and contains nRuns+1 columns. The first column contains an integer referencing the GeneMeta ID}
 
+\item{nRuns}{Number of runs used in the Louvain community assignment. Default is to calculate from results table.}
+
 \item{minMem}{Minimum number of genes in a community to be considered significant. Default = 10}
 }
 \value{
