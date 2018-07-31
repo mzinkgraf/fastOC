@@ -4,7 +4,7 @@
 \alias{filterCommunityAssign}
 \title{Filter Louvain community assignemnts}
 \usage{
-filterCommunityAssign(results,minMem=10)
+filterCommunityAssign(results, nRuns=NULL, minMem=10)
 }
 \arguments{
 \item{results}{Data frame containing the community assignments for each genes and contains nRuns+1 columns. The first column contains an integer referencing the GeneMeta ID}
