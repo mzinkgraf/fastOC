@@ -25,7 +25,7 @@ filterCommunityAssign <- function(results, nRuns=NULL, minMem=10)
 
   for(j in 1:nRuns)
   {
-    tmp[,1:2]=results[,c(1,j+1)]
+    tmp=results[,c(1,j+1)]
     tmp=cbind(tmp,1)
     #colnames(tmp)=c("V1","V2","V3")
 
