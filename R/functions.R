@@ -22,12 +22,12 @@ filterCommunityAssign <- function(results, nRuns=NULL, minMem=10)
     {
     nRuns=ncol(results)-1
   }
-tmp<-matrix(0,0,3,dimnames=list(c(),c("V1","V2","V3")))
+
   for(j in 1:nRuns)
   {
-    tmp=results[,c(1,j+1)]
-    tmp[,3]=1
-    names(tmp)=c("V1","V2","V3")
+    tmp[,1:2]=results[,c(1,j+1)]
+    tmp=cbind(tmp,1)
+    colnames(tmp)=c("V1","V2","V3")
 
     #remove zero community
     tmp<-tmp[which(tmp[,2]!=0),]
