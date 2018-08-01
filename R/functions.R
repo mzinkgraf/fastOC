@@ -27,15 +27,15 @@ filterCommunityAssign <- function(results, nRuns=NULL, minMem=10)
   {
     tmp[,1:2]=results[,c(1,j+1)]
     tmp=cbind(tmp,1)
-    colnames(tmp)=c("V1","V2","V3")
+    #colnames(tmp)=c("V1","V2","V3")
 
     #remove zero community
     tmp<-tmp[which(tmp[,2]!=0),]
     if(j==1)
     {
-      d_sparse = sparseMatrix(as.integer(tmp[,1]), as.integer(tmp[,2]), x = tmp$V3)
+      d_sparse = sparseMatrix(as.integer(tmp[,1]), as.integer(tmp[,2]), x = tmp[,3])
     } else {
-      data.sparse = sparseMatrix(as.integer(tmp[,1]), as.integer(tmp[,2]), x = tmp$V3,dims = c(nrow(d_sparse),max(as.integer(tmp[,2]))))
+      data.sparse = sparseMatrix(as.integer(tmp[,1]), as.integer(tmp[,2]), x = tmp[,3],dims = c(nrow(d_sparse),max(as.integer(tmp[,2]))))
       d_sparse<-cbind(d_sparse,data.sparse)
     }
   }
