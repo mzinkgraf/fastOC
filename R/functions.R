@@ -22,7 +22,7 @@ filterCommunityAssign <- function(results, nRuns=NULL, minMem=10)
     {
     nRuns=ncol(results)-1
   }
-
+tmp<-matrix(0,0,3,dimnames=list(c(),c("V1","V2","V3")))
   for(j in 1:nRuns)
   {
     tmp=results[,c(1,j+1)]
