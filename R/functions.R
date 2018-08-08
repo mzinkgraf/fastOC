@@ -27,10 +27,11 @@
 #'
 #'This function removes communities from the sparse matrix that have a minimum number of gene members
 #'
-#' @usage filterCommunityAssign(results, nRuns=NULL, minMem=10)
+#' @usage filterCommunityAssign(results, nRuns=NULL, minMem=10, maxMem=NULL)
 #' @param results Data frame containing the community assignments for each genes and contains nRuns+1 columns. The first column contains an integer referencing the GeneMeta ID
 #' @param nRuns Number of runs used in the Louvain community assignment. Default is to calculate from results table.
 #' @param minMem Minimum number of genes in a community to be considered significant. Default = 10
+#' @param maxMem Maximum number of genes in a community to be considered significant. Default = NULL
 #' @import methods
 #' @import igraph
 #' @import Matrix
@@ -38,7 +39,7 @@
 #' @return Returns a sparse matrix containing to occurance of each gene in each community. 1 = present and 0 = absent
 #' @author Matthew Zinkgraf, \email{Matthew.Zinkgraf@wwu.edu}
 #' @export
-filterCommunityAssign <- function(results, nRuns=NULL, minMem=10)
+filterCommunityAssign <- function(results, nRuns=NULL, minMem=10, maxMem=NULL)
 {
   if (is.null(nRuns))
     {
@@ -63,7 +64,13 @@ filterCommunityAssign <- function(results, nRuns=NULL, minMem=10)
   }
 
   #full module assignments
-  keep=which(Matrix::colSums(d_sparse)>minMem)
+  if(is.null(maxMem) & minMem>0)
+    {
+    keep=which(Matrix::colSums(d_sparse)>minMem)
+  } else if (maxMem > 0 & minMem > 0)
+  {
+    keep=which(Matrix::colSums(d_sparse)>minMem & Matrix::colSums(d_sparse)<maxMem )
+  }
   d_keep<-d_sparse[,keep]
   return(d_keep)
 }

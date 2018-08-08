@@ -4,7 +4,7 @@
 \alias{filterCommunityAssign}
 \title{Filter Louvain community assignemnts}
 \usage{
-filterCommunityAssign(results, nRuns=NULL, minMem=10)
+filterCommunityAssign(results, nRuns=NULL, minMem=10, maxMem=NULL)
 }
 \arguments{
 \item{results}{Data frame containing the community assignments for each genes and contains nRuns+1 columns. The first column contains an integer referencing the GeneMeta ID}
@@ -12,6 +12,8 @@ filterCommunityAssign(results, nRuns=NULL, minMem=10)
 \item{nRuns}{Number of runs used in the Louvain community assignment. Default is to calculate from results table.}
 
 \item{minMem}{Minimum number of genes in a community to be considered significant. Default = 10}
+
+\item{maxMem}{Maximum number of genes in a community to be considered significant. Default = NULL}
 }
 \value{
 Returns a sparse matrix containing to occurance of each gene in each community. 1 = present and 0 = absent
