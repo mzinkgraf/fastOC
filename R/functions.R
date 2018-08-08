@@ -1,6 +1,28 @@
 #these functions are designed to work with the orthologous clustering methods
 #that are being developed for the analysis of multiple angiosperm tree species
 
+# Function to control the number of threads to use in threaded calculations.
+
+.useNThreads = function(nThreads = 0)
+{
+  if (nThreads==0)
+  {
+    nt.env = Sys.getenv(.threadAllowVar, unset = NA);
+    if (is.na(nt.env)) return(1);
+    if (nt.env=="") return(1);
+
+    if (nt.env=="ALL_PROCESSORS") return (.nProcessorsOnline());
+
+    nt = suppressWarnings(as.numeric(nt.env));
+
+    if (!is.finite(nt)) return(2);
+
+    return(nt);
+  } else
+    return (nThreads);
+}
+
+
 #'Filter Louvain community assignemnts
 #'
 #'This function removes communities from the sparse matrix that have a minimum number of gene members
@@ -267,6 +289,11 @@ weighted2rankList<-function(m, top=5, nThreads=2, parallel_apply=FALSE)
 #' @export
 getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=FALSE)
 {
+  if (nThreads < 0)
+    stop("nThreads must be non-negative.")
+  if (is.null(nThreads) || (nThreads == 0))
+    nThreads = .useNThreads()
+
   if(is.list(rpkm) & length(rpkm)>0)
   {
     nGenes<-cumsum(do.call(c,lapply(seq_along(rpkm), function(y, i) {  length(dimnames(y[[i]])[[1]] ) }, y=rpkm)))
@@ -777,3 +804,4 @@ if(ncol(MetaDataInParanoid)!=3) {stop("meta data does not contain 3 columns")}
 
   }
 }
+
