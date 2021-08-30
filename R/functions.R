@@ -294,7 +294,7 @@ weighted2rankList<-function(m, top=5, nThreads=2, parallel_apply=FALSE)
 #' GeneMeta <- createGeneMeta(rpkm_var)
 #' gene_edgelist <- getEdgelist(rpkm_var, GeneMeta, top = 5)
 #' @export
-getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=FALSE)
+getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=FALSE, use = "all.obs")
 {
   if (nThreads < 0)
     stop("nThreads must be non-negative.")
@@ -311,7 +311,7 @@ getEdgelist<-function(rpkm,GeneMeta,top=5,weight=1,nThreads = 2, parallel_apply=
 
       datExpr0<-t(rpkm[[q]])
 
-      Cor<-WGCNA::cor(datExpr0,method="pearson",nThreads = nThreads)
+      Cor<-WGCNA::cor(datExpr0,method="pearson",nThreads = nThreads, use = use)
       #diag(Cor)<-0
       nc<-nrow(Cor)
       Cor[cbind(1:nc,1:nc)]<-0
