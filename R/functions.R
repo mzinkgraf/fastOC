@@ -95,12 +95,13 @@ filterVariance = function(rpkm, variance=0.1)
     {
       vari<-apply(rpkm[[v]],1,var)
       index<-which(vari>variance)
-      rpkm[[v]]<-rpkm[[v]][index,]
-      return(rpkm)
+      rpkm[[v]]<-rpkm[[v]][index,] 
     }
   } else {
     return("Object is not a list")
   }
+  
+  return(rpkm)
 }
 
 #'Create gene metadata object
